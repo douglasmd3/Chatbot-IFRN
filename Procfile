@@ -1,2 +1,2 @@
-web: python3.9 funcoes.py
-worker: python3.9 funcoes.py
+web: python funcoes.py
+worker: python funcoes.py
