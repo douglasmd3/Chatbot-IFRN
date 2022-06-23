@@ -1,10 +1,13 @@
 from telegram import Update
 from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler
 import logging
-import texto, botoes
+import texto
+import botoes
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 def start(update: Update, context: CallbackContext) -> None:
     context.bot.send_photo(
@@ -17,16 +20,19 @@ def start(update: Update, context: CallbackContext) -> None:
         text=texto.start_texto,
         reply_markup=botoes.start_lines
     )
-def balloon (update: Update, context: CallbackContext) -> None:
+
+
+def balloon(update: Update, context: CallbackContext) -> None:
     query = update.callback_query.data
     update.callback_query.answer()
 
     handler = update.callback_query
     handler.answer()
 
-    if "HOMER" in query:
+    if "HOME" in query:
         handler.edit_message_text(
-            text=f'Olá, {update.effective_user.full_name}! ' + texto.start_texto,
+            text=f'Olá, {update.effective_user.full_name}! ' +
+            texto.start_texto,
             reply_markup=botoes.start_lines
         )
     if "VOLTAR_SETOR_LINE" in query:
@@ -84,6 +90,8 @@ def balloon (update: Update, context: CallbackContext) -> None:
             text=texto.txt_coex + texto.FAQ,
             reply_markup=botoes.regressar_setor_line
         )
+
+
 def iniciar() -> None:
     token = "5241177916:AAHZUC5gimNEyosHBngN5-KELqBSYauthok"
     updater = Updater(token)
@@ -95,6 +103,7 @@ def iniciar() -> None:
 
     updater.start_polling()
     updater.idle()
+
 
 if __name__ == '__main__':
     iniciar()
