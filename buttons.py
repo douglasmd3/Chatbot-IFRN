@@ -1,7 +1,7 @@
 #pip install python-telegram-bot
 from telegram import *
 from telegram.ext import *
-import time, logging, cod
+import time, logging
 from requests import *
 
 logging.basicConfig(
@@ -9,28 +9,24 @@ logging.basicConfig(
     )
 logger = logging.getLogger(__name__)
 
-image = f"https://scontent.fnat2-1.fna.fbcdn.net/v/t1.6435-9/33421594_1659227080812208_841173034298507264_n.jpg?_nc_cat=103&ccb=1-6&_nc_" \
-        f"sid=09cbfe&_nc_ohc=tIatDovv740AX_FU5Y4&_nc_ht=scontent.fnat2-1.fna&oh=00_AT8IcXokpaMvG_geIXUBWLKE21_3ljsxETynxjJWLqsJbg&oe=62A7A72A"
-
 txt_menu= """Escolha uma opção do /menu para continuar.\n(Clique no item):
 /FAQ - Perguntas respoondidas frequentemente e Dúvidas;
 /help - Ajuda - lhe a encontrar opções válidas;
 /sugerir - Deixe alguma sugestão para atualizações futuras;
 /avaliar - Experimente avaliar o atendimento;"""
 
-likes = 0
+buttonsstart = [[InlineKeyboardButton("FAQ", callback_data="FAQ")],[InlineKeyboardButton("help", callback_data="help"),]]
 
+likes = 0
 dislikes = 0
 
 def start (update: Update, context: CallbackContext) -> None:
-    global var
-    var = get(image).content
     txt_start = f"""Olá, {update.effective_user.full_name}. Que bom você por aqui. 
     \nSeja bem-vindo(a) ao sistema de atendimentos do IFRN/SGA. 
-    \nVeja algumas opções disponíveis que poderá ajudar - lhe.
+    \nVeja algumas opções disponíveis que poderá ajudar.
     \n"""
-
-    context.bot.send_photo(chat_id=update.message.chat_id,photo=var, caption=txt_start + txt_menu)
+    context.bot.send_photo(chat_id=update.message.chat_id,photo=open('Imagem-Inicial.jfif','rb'), caption=txt_start + txt_menu)
+    context.bot.send_message(chat_id=update.effective_chat.id,reply_markup=InlineKeyboardMarkup(buttonsstart), text="Escolha uma opção do /menu para continuar")
 
 def menu (update: Update, context: CallbackContext) -> None:
     context.bot.send_message(chat_id=update.message.chat_id, text=txt_menu)
@@ -40,9 +36,9 @@ def menu (update: Update, context: CallbackContext) -> None:
 def help(update: Update, context: CallbackContext) -> None:
     update.message.reply_text("Não se preocupe, Buscando Ajuda 🆘 AGUARDE!")
     context.bot.send_sticker(chat_id=update.message.chat_id, sticker='CAACAgIAAxkBAAIIEWJ53_ntngsb5aDtmlfa5oejtpJOAAKJCgACcW6JS9OXXOiMKwOwJAQ')
-    time.sleep(5)
+#    time.sleep(5)
     update.message.reply_text(" ⏳ A finalizar o Processamento do Comando ⏳")
-    time.sleep(5)
+#    time.sleep(5)
     update.message.reply_text("Use /menu ou /start para consultar as opções disponíveis 😉")
 
 def avaliar (update: Update, context: CallbackContext) -> None:
@@ -76,6 +72,9 @@ def queryHandler(update: Update, context: CallbackContext) -> None:
     arquivo.close()
 
     print(f"likes => {likes} and dislikes => {dislikes}")
+
+    if "help" in query:
+        context.bot.send_message(chat_id=update.effective_chat.id, text="oi")
 
     handler = update.callback_query
     handler.answer()
