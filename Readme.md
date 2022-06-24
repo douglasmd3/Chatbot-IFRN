@@ -1,6 +1,6 @@
 # BOT IFRN-SGA
 
-# Instruções de comandos da biblioteca python-telegram-bot
+# comandos para biblioteca python-telegram-bot
 https://docs.python-telegram-bot.org/en/stable/telegram.update.html?highlight=query#telegram.Update.inline_query
 
 # Como configurar projeto no Heroku
