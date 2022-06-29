@@ -1,7 +1,6 @@
 from telegram import Update
 from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler
-import logging
-import gtts, texto, botoes
+import logging, gtts, texto, botoes
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -90,7 +89,36 @@ def balloon (update: Update, context: CallbackContext) -> None:
             chat_id=update.effective_message.chat_id,
             audio=open('Audios/audio_faq_seac4.mp3', 'rb'),
         )
-
+    if "faq_seac5" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac5,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+    if "faq_seac6" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac6,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+    if "faq_seac7" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac7,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+    if "faq_seac8" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac8,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+    if "faq_seac9" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac9,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+    if "faq_seacc10" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac10,
+            reply_markup=botoes.regressar_faq_seac,
+        )
 #    if "FAQ_coex" in query.data:
 #        handler.edit_message_text(
 #            text=texto.txt_coex + texto.FAQ,
@@ -101,6 +129,23 @@ def iniciar() -> None:
     token = "5241177916:AAHZUC5gimNEyosHBngN5-KELqBSYauthok"
     updater = Updater(token)
     dispatcher = updater.dispatcher
+
+    # https://pt.stackoverflow.com/questions/297721/timeout-na-função-input-do-python
+    # import signal
+
+    # def timeout(signum, frame):
+    #    raise Exception('Seu tempo acabou!')
+
+    # signal.signal(signal.SIGALRM, timeout)
+    # signal.alarm(5)
+
+    # try:
+    #    signal.alarm(5)
+    #    name = input('Qual é o seu nome? ')
+    #    signal.alarm(0)
+    #    print('Seja bem-vindo,', name)
+    # except Exception as e:
+    #    print(e)
 
 # Iniciar comandos da função quando solicitadas
     dispatcher.add_handler(MessageHandler(Filters.all, start))

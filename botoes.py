@@ -41,7 +41,7 @@ faq_seac = [
     [InlineKeyboardButton("07 – Renovação de Matrícula❓", callback_data="faq_seac7")],
     [InlineKeyboardButton("08 – Inscrição em Disciplina❓", callback_data="faq_seac8")],
     [InlineKeyboardButton("09 – Trancamento de Matrícula❓", callback_data="faq_seac9")],
-    [InlineKeyboardButton("10 - Cancelamento de Disciplina❓", callback_data="faq_seac10")],
+    [InlineKeyboardButton("10 - Cancelamento de Disciplina❓", callback_data="faq_seacc10")],
     [InlineKeyboardButton("🏠", callback_data="HOME"), InlineKeyboardButton("↩", callback_data="MENU3") ],
 ]
 faq_seac=InlineKeyboardMarkup(faq_seac)
