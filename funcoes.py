@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler
 import logging
-import texto, botoes
+import gtts, texto, botoes
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -17,73 +17,86 @@ def start(update: Update, context: CallbackContext) -> None:
         text=texto.start_texto,
         reply_markup=botoes.start_lines
     )
+    #print (f'{update.effective_user.full_name} Entrou. {update.effective_message}')
 def balloon (update: Update, context: CallbackContext) -> None:
-    query = update.callback_query.data
-    update.callback_query.answer()
-
-    handler = update.callback_query
+    query = update.callback_query
+    handler = query
     handler.answer()
 
-    if "HOMER" in query:
+    if "HOME" in query.data:
         handler.edit_message_text(
             text=f'Olá, {update.effective_user.full_name}! ' + texto.start_texto,
             reply_markup=botoes.start_lines
         )
-    if "VOLTAR_SETOR_LINE" in query:
+    if "Estrutura_Administrativa" in query.data or "MENU2" in query.data:
         handler.edit_message_text(
             text="Escolha uma opção disponível para continuar 👇",
             reply_markup=botoes.setor_line
         )
-    if "VOLTAR_FAQ_SEAC" in query:
-        handler.edit_message_text(
-            text=texto.txt_seac + texto.FAQ,
-            reply_markup=botoes.faq_seac
-        )
-    if "Estrutura_Administrativa" in query:
-        handler.edit_message_text(
-            text="Escolha uma opção disponível para continuar 👇",
-            reply_markup=botoes.setor_line
-        )
-    if "SEAC/SGA" in query:
+    if "SEAC/SGA" in query.data or "MENU3"in query.data:
         handler.edit_message_text(
             text=texto.txt_seac,
             reply_markup=botoes.menu_seac
         )
-    if "Contato_seac" in query:
+    if "Contato_seac" in query.data:
         handler.edit_message_text(
             text=texto.txt_seac + texto.seac_contato,
-            reply_markup=botoes.regressar_setor_line
+            reply_markup=botoes.contato_seac
         )
-    if "COEX/SGA" in query:
-        handler.edit_message_text(
-            text=texto.txt_coex,
-            reply_markup=botoes.menu_coex
-        )
-    if "Contato_coex" in query:
-        handler.edit_message_text(
-            text=texto.txt_coex + texto.coex_contato,
-            reply_markup=botoes.regressar_setor_line
-        )
-    if "FAQ_seac" in query:
+#    if "COEX/SGA" in query.data or "VOLTAR_MENU" in query.data:
+#        handler.edit_message_text(
+#            text=texto.txt_coex,
+#            reply_markup=botoes.menu_seac
+#        )
+#    if "Contato_coex" in query.data:
+#        handler.edit_message_text(
+#            text=texto.txt_coex + texto.coex_contato,
+#            reply_markup=botoes.regressar_setor_line
+#        )
+    if "FAQ_seac" in query.data or "MENU4" in query.data:
         handler.edit_message_text(
             text=texto.txt_seac + texto.FAQ,
             reply_markup=botoes.faq_seac
         )
-    if "faq_seac1" in query:
+    if "faq_seac1" in query.data:
         handler.edit_message_text(
-            text=texto.txt_faq_seac1,
+            text=texto.txt_faq_seac1 + texto.txt_comum,
             reply_markup=botoes.regressar_faq_seac
         )
-    if "faq_seac2" in query:
+        audio_faq_seac1 = gtts.gTTS(texto.txt_faq_seac1, lang='pt-br')
+        audio_faq_seac1.save('Audios/audio_faq_seac1.mp3')
+        context.bot.send_audio(
+            chat_id=update.effective_message.chat_id,
+            audio=open('Audios/audio_faq_seac1.mp3', 'rb'),
+        )
+    if "faq_seac2" in query.data:
         handler.edit_message_text(
             text=texto.txt_faq_seac2,
-            reply_markup=botoes.regressar_faq_seac
+            reply_markup=botoes.regressar_faq_seac,
         )
-    if "FAQ_coex" in query:
+    if "faq_seac3" in query.data:
         handler.edit_message_text(
-            text=texto.txt_coex + texto.FAQ,
-            reply_markup=botoes.regressar_setor_line
+            text=texto.txt_faq_seac3,
+            reply_markup=botoes.regressar_faq_seac,
         )
+    if "faq_seac4" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac4 + texto.txt_comum,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+        audio_faq_seac4 = gtts.gTTS(texto.txt_faq_seac4, lang='pt') # linha necessária apenas para converter o texto.
+        audio_faq_seac4.save('Audios/audio_faq_seac4.mp3') # quando o arquivo for criado não é necessário pois pode haver demora ao refazer a conversão de texto e sobrescrever o mesmo arquivo.
+        context.bot.send_audio( # se o arquivo já existir, basta envia - lo diretamente sem nova conversão.
+            chat_id=update.effective_message.chat_id,
+            audio=open('Audios/audio_faq_seac4.mp3', 'rb'),
+        )
+
+#    if "FAQ_coex" in query.data:
+#        handler.edit_message_text(
+#            text=texto.txt_coex + texto.FAQ,
+#            reply_markup=botoes.regressar_setor_line
+#        )
+    print(f'{update.effective_user.full_name} utilizou {query.data}') # registro dos botões utilizados por usuário.
 def iniciar() -> None:
     token = "5241177916:AAHZUC5gimNEyosHBngN5-KELqBSYauthok"
     updater = Updater(token)
