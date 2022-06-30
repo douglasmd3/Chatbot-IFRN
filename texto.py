@@ -3,10 +3,7 @@ from playsound import playsound
 
 start_texto = "Para prosseguir, selecione uma opção disponível que poderá lhe ajudar no seu atendimento 👇"
 
-txt_seac = "A secretaria Acadêmica | SEAC é o setor responsável pelo controle, verificação, registro e arquivamento da "
-txt_seac +="documentação da vida acadêmica do aluno, desde seu ingresso na Instituição, até a conclusão e/ou expedição do diploma.\n"
-txt_seac +="\nA missão da Secretaria Acadêmica é realizar com presteza e eficácia todos os procedimentos que envolvem o controle e o "
-txt_seac +="registro acadêmico, assim como orientar os alunos para os mesmos."
+txt_seac = "A secretaria Acadêmica | SEAC é o setor responsável pelo controle, verificação, registro e arquivamento da documentação da vida acadêmica do aluno, desde seu ingresso na Instituição, até a conclusão e/ou expedição do diploma.\n\nA missão da Secretaria Acadêmica é realizar com presteza e eficácia todos os procedimentos que envolvem o controle e o registro acadêmico, assim como orientar os alunos para os mesmos."
 
 seac_contato = """\n
 Responsáveis:
