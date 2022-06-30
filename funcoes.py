@@ -22,7 +22,6 @@ def start(update: Update, context: CallbackContext) -> None:
         text=texto.start_texto,
         reply_markup=botoes.start_lines()
     )
-    #print (f'{update.effective_user.full_name} Entrou. {update.effective_message}')
 
 
 def balloon(update: Update, context: CallbackContext) -> None:
@@ -31,53 +30,53 @@ def balloon(update: Update, context: CallbackContext) -> None:
     handler = query
     handler.answer()
 
-    if "HOME" in query.data:
+    if texto.HOME in query.data:
         handler.edit_message_text(
             text=f'Olá, {update.effective_user.full_name}! ' +
             texto.start_texto,
             reply_markup=botoes.start_lines()
         )
-    elif "Estrutura_Administrativa" in query.data or "MENU2" in query.data:
+    elif texto.ESTRUTURA_ADMINISTRATIVA in query.data or "MENU2" in query.data:
         handler.edit_message_text(
             text="Escolha uma opção disponível para continuar 👇",
             reply_markup=botoes.setor_line()
         )
-    elif "VOLTAR_FAQ_SEAC" in query.data:
+    elif texto.VOLTAR_FAQ_SEAC in query.data:
         handler.edit_message_text(
             text=texto.txt_seac + texto.FAQ,
             reply_markup=botoes.faq_seac
         )
-    elif "SEAC/SGA" in query.data:
+    elif texto.SEAC_SGA in query.data:
         handler.edit_message_text(
             text=texto.txt_seac,
             reply_markup=botoes.menu_seac()
         )
-    elif "Contato_seac" in query.data:
-        historico.append("SEAC/SGA")
+    elif texto.CONTATO_SEAC in query.data:
+        historico.append(texto.SEAC_SGA)
         handler.edit_message_text(
             text=texto.txt_seac + texto.seac_contato,
             reply_markup=botoes.regressar_setor_line(historico)
         )
-    elif "COEX/SGA" in query.data:
+    elif texto.COEX_SGA in query.data:
         handler.edit_message_text(
             text=texto.txt_coex,
             reply_markup=botoes.menu_coex()
         )
-    elif "Contato_coex" in query.data:
-        historico.append("COEX/SGA")
-        print(historico, "Contato_coex")
+    elif texto.CONTATO_COEX in query.data:
+        historico.append(texto.COEX_SGA)
+        print(historico, texto.CONTATO_COEX)
         handler.edit_message_text(
             text=texto.txt_coex + texto.coex_contato,
             reply_markup=botoes.regressar_setor_line(historico)
         )
-    elif "FAQ_seac" in query.data:
-        historico.append("SEAC/SGA")
+    elif texto.FAQ_SEAC in query.data:
+        historico.append(texto.SEAC_SGA)
         handler.edit_message_text(
             text=texto.txt_seac + texto.FAQ,
             reply_markup=botoes.faq_seac(historico)
         )
     elif "faq_seac1" in query.data:
-        historico.append("SEAC/SGA")
+        historico.append(texto.SEAC_SGA)
         handler.edit_message_text(
             text=texto.txt_faq_seac1,
             reply_markup=botoes.regressar_faq_seac
@@ -87,8 +86,8 @@ def balloon(update: Update, context: CallbackContext) -> None:
             text=texto.txt_faq_seac2,
             reply_markup=botoes.regressar_faq_seac
         )
-    elif "FAQ_coex" in query.data:
-        historico.append("COEX/SGA")
+    elif texto.FAQ_COEX in query.data:
+        historico.append(texto.COEX_SGA)
         handler.edit_message_text(
             text=texto.txt_coex + texto.FAQ,
             reply_markup=botoes.regressar_setor_line(historico)

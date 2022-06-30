@@ -2,63 +2,61 @@ import logging
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackContext
 import funcoes
+import texto
 
 
 def regressar_setor_line(historico):
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("🏠", callback_data="HOME"), InlineKeyboardButton(
+        [InlineKeyboardButton("🏠", callback_data=texto.HOME), InlineKeyboardButton(
             "↩", callback_data=historico.pop())]
     ])
 
 
-# regressar_setor_line = InlineKeyboardMarkup(regressar_setor_line)
-
 regressar_faq_seac = [
-    [InlineKeyboardButton("↩", callback_data="VOLTAR_FAQ_SEAC")]
+    [InlineKeyboardButton("↩", callback_data=texto.VOLTAR_FAQ_SEAC)]
 ]
 regressar_faq_seac = InlineKeyboardMarkup(regressar_faq_seac)
 
 
 def start_lines():
     return InlineKeyboardMarkup([[InlineKeyboardButton(
-        "🏢 SETORES", callback_data="Estrutura_Administrativa")], ])
+        "🏢 SETORES", callback_data=texto.ESTRUTURA_ADMINISTRATIVA)], ])
 
 
 def setor_line():
     return InlineKeyboardMarkup([[
-        InlineKeyboardButton("🏠", callback_data="HOME")],
+        InlineKeyboardButton("🏠", callback_data=texto.HOME)],
         [InlineKeyboardButton(
-            "🏢 SECRETARIA ACADÊMICA | SEAC/SGA", callback_data="SEAC/SGA")],
+            "🏢 SECRETARIA ACADÊMICA | SEAC/SGA", callback_data=texto.SEAC_SGA)],
         [InlineKeyboardButton(
-            "🏢 COORDENAÇÃO DE EXTENSÃO | COEX/SGA", callback_data="COEX/SGA")],
+            "🏢 COORDENAÇÃO DE EXTENSÃO | COEX/SGA", callback_data=texto.COEX_SGA)],
     ])
 
 
 def menu_seac():
 
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("🏠", callback_data="HOME"), InlineKeyboardButton(
-            "↩", callback_data="Estrutura_Administrativa")],
-        [InlineKeyboardButton("📞 Contatos e Canais", callback_data="Contato_seac"),
-         InlineKeyboardButton("❓ Perguntas Frequentes", callback_data="FAQ_seac")],
+        [InlineKeyboardButton("🏠", callback_data=texto.HOME), InlineKeyboardButton(
+            "↩", callback_data=texto.ESTRUTURA_ADMINISTRATIVA)],
+        [InlineKeyboardButton("📞 Contatos e Canais", callback_data=texto.CONTATO_SEAC),
+         InlineKeyboardButton("❓ Perguntas Frequentes", callback_data=texto.FAQ_SEAC)],
     ])
 
 
 def menu_coex():
     return InlineKeyboardMarkup([
 
-        [InlineKeyboardButton("🏠", callback_data="HOME"), InlineKeyboardButton(
-            "↩", callback_data="Estrutura_Administrativa")],
+        [InlineKeyboardButton("🏠", callback_data=texto.HOME), InlineKeyboardButton(
+            "↩", callback_data=texto.ESTRUTURA_ADMINISTRATIVA)],
         [InlineKeyboardButton("📞 Contatos e Canais", callback_data="Contato_coex"),
-         InlineKeyboardButton("❓ Perguntas Frequentes", callback_data="FAQ_coex")],
+         InlineKeyboardButton("❓ Perguntas Frequentes", callback_data=texto.FAQ_COEX)],
     ])
-# menu_coex = InlineKeyboardMarkup(menu_coex)
 
 
 def faq_seac(historico):
     voltar = historico.pop()
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("🏠", callback_data="HOME"),
+        [InlineKeyboardButton("🏠", callback_data=texto.HOME),
          InlineKeyboardButton("↩", callback_data=voltar)],
         [InlineKeyboardButton(
             "01 - Justificativa de Faltas/Reposição de Atividades❓", callback_data="faq_seac1")],
@@ -80,7 +78,6 @@ def faq_seac(historico):
             "09 – Trancamento de Matrícula❓", callback_data="faq_seac9")],
         [InlineKeyboardButton(
             "10 - Cancelamento de Disciplina❓", callback_data="faq_seac10")],
-        [InlineKeyboardButton("🏠", callback_data="HOME"),
+        [InlineKeyboardButton("🏠", callback_data=texto.HOME),
          InlineKeyboardButton("↩", callback_data=voltar)]
     ])
-# faq_seac = InlineKeyboardMarkup(faq_seac)
