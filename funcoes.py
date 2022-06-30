@@ -1,6 +1,7 @@
 from telegram import Update, InlineKeyboardMarkup
 from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler
 import logging
+import gtts
 import texto
 import botoes
 
@@ -21,28 +22,24 @@ def start(update: Update, context: CallbackContext) -> None:
         text=texto.start_texto,
         reply_markup=botoes.start_lines()
     )
+    #print (f'{update.effective_user.full_name} Entrou. {update.effective_message}')
 
 
 def balloon(update: Update, context: CallbackContext) -> None:
-    query = update.callback_query.data
-    update.callback_query.answer()
-
-    handler = update.callback_query
+    query = update.callback_query
+    handler = query
     handler.answer()
 
-    logging.info(query)
-
-    if "HOME" in query:
+    if "HOME" in query.data:
         handler.edit_message_text(
             text=f'Olá, {update.effective_user.full_name}! ' +
             texto.start_texto,
             reply_markup=botoes.start_lines()
         )
-    if "VOLTAR_SETOR_LINE" in query:
-        reply = botoes.setor_line()
+    if "Estrutura_Administrativa" in query.data or "MENU2" in query.data:
         handler.edit_message_text(
             text="Escolha uma opção disponível para continuar 👇",
-            reply_markup=reply
+            reply_markup=botoes.setor_line()
         )
     if "VOLTAR_FAQ_SEAC" in query:
         handler.edit_message_text(
@@ -56,7 +53,7 @@ def balloon(update: Update, context: CallbackContext) -> None:
             reply_markup=botoes.setor_line()
         )
 
-    if "SEAC/SGA" in query:
+    if "SEAC/SGA" in query.data or "MENU3" in query.data:
         handler.edit_message_text(
             text=texto.txt_seac,
             reply_markup=botoes.menu_seac()
