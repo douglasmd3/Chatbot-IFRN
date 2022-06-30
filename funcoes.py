@@ -26,6 +26,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 def balloon(update: Update, context: CallbackContext) -> None:
+
     query = update.callback_query
     handler = query
     handler.answer()
@@ -36,65 +37,57 @@ def balloon(update: Update, context: CallbackContext) -> None:
             texto.start_texto,
             reply_markup=botoes.start_lines()
         )
-    if "Estrutura_Administrativa" in query.data or "MENU2" in query.data:
+    elif "Estrutura_Administrativa" in query.data or "MENU2" in query.data:
         handler.edit_message_text(
             text="Escolha uma opção disponível para continuar 👇",
             reply_markup=botoes.setor_line()
         )
-    if "VOLTAR_FAQ_SEAC" in query:
+    elif "VOLTAR_FAQ_SEAC" in query.data:
         handler.edit_message_text(
             text=texto.txt_seac + texto.FAQ,
             reply_markup=botoes.faq_seac
         )
-    if "Estrutura_Administrativa" in query:
-
-        handler.edit_message_text(
-            text="Escolha uma opção disponível para continuar 👇",
-            reply_markup=botoes.setor_line()
-        )
-
-    if "SEAC/SGA" in query.data or "MENU3" in query.data:
+    elif "SEAC/SGA" in query.data:
         handler.edit_message_text(
             text=texto.txt_seac,
             reply_markup=botoes.menu_seac()
         )
-    if "Contato_seac" in query:
+    elif "Contato_seac" in query.data:
         historico.append("SEAC/SGA")
-        print(historico, "Contato_seac")
         handler.edit_message_text(
             text=texto.txt_seac + texto.seac_contato,
             reply_markup=botoes.regressar_setor_line(historico)
         )
-    if "COEX/SGA" in query:
+    elif "COEX/SGA" in query.data:
         handler.edit_message_text(
             text=texto.txt_coex,
             reply_markup=botoes.menu_coex()
         )
-    if "Contato_coex" in query:
+    elif "Contato_coex" in query.data:
         historico.append("COEX/SGA")
         print(historico, "Contato_coex")
         handler.edit_message_text(
             text=texto.txt_coex + texto.coex_contato,
             reply_markup=botoes.regressar_setor_line(historico)
         )
-    if "FAQ_seac" in query:
+    elif "FAQ_seac" in query.data:
         historico.append("SEAC/SGA")
         handler.edit_message_text(
             text=texto.txt_seac + texto.FAQ,
             reply_markup=botoes.faq_seac(historico)
         )
-    # if "faq_seac1" in query:
-    #     historico.append("SEAC/SGA")
-    #     handler.edit_message_text(
-    #         text=texto.txt_faq_seac1,
-    #         reply_markup=botoes.regressar_faq_seac
-    #     )
-    # if "faq_seac2" in query:
-    #     handler.edit_message_text(
-    #         text=texto.txt_faq_seac2,
-    #         reply_markup=botoes.regressar_faq_seac
-    #     )
-    if "FAQ_coex" in query:
+    elif "faq_seac1" in query.data:
+        historico.append("SEAC/SGA")
+        handler.edit_message_text(
+            text=texto.txt_faq_seac1,
+            reply_markup=botoes.regressar_faq_seac
+        )
+    elif "faq_seac2" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac2,
+            reply_markup=botoes.regressar_faq_seac
+        )
+    elif "FAQ_coex" in query.data:
         historico.append("COEX/SGA")
         handler.edit_message_text(
             text=texto.txt_coex + texto.FAQ,
