@@ -1,6 +1,3 @@
-import gtts
-from playsound import playsound
-
 HOME = "HOME"
 ESTRUTURA_ADMINISTRATIVA = "ESTRUTURA_ADMINISTRATIVA"
 VOLTAR_FAQ_SEAC = "VOLTAR_FAQ_SEAC"
@@ -10,10 +7,9 @@ COEX_SGA = "COEX/SGA"
 CONTATO_COEX = "CONTATO_COEX"
 FAQ_SEAC = "FAQ_SEAC"
 FAQ_COEX = "FAQ_COEX"
-
 start_texto = "Para prosseguir, selecione uma opção disponível que poderá lhe ajudar no seu atendimento 👇"
 
-txt_seac = "A secretaria Acadêmica | SEAC é o setor responsável pelo controle, verificação, registro e arquivamento da documentação da vida acadêmica do aluno, desde seu ingresso na Instituição, até a conclusão e/ou expedição do diploma.\n\nA missão da Secretaria Acadêmica é realizar com presteza e eficácia todos os procedimentos que envolvem o controle e o registro acadêmico, assim como orientar os alunos para os mesmos."
+txt_seac = """A secretaria Acadêmica | SEAC é o setor responsável pelo controle, verificação, registro e arquivamento da documentação da vida acadêmica do aluno, desde seu ingresso na Instituição, até a conclusão e/ou expedição do diploma.\n\nA missão da Secretaria Acadêmica é realizar com presteza e eficácia todos os procedimentos que envolvem o controle e o registro acadêmico, assim como orientar os alunos para os mesmos."""
 
 seac_contato = """\n
 Responsáveis:
@@ -46,7 +42,7 @@ Link Coex: https://linktr.ee/coex.sga
 """
 
 FAQ = """
-\nOlá, caro(a) requerente 🤗 há alguma dúvida para esclarecer ❓ Aqui segue algumas das perguntas frequentes do setor selecionado.
+\nOlá, caro(a) requerente 🤗 há alguma dúvida para esclarecer ❓ Aqui segue algumas das perguntas frequentes do setor selecionado para que você fique bem informado das principais questões tratadas por este setor.\n
 veja e selecione aquela que melhor atende sua expectativa. Espero que isso lhe ajude em sua busca.
 Caso não encontre o que procura, minhas recomendações são:
 1 - Entre em contato com o setor 🏢
@@ -117,8 +113,74 @@ Art. 276. É vedada a certificação de conhecimentos de disciplinas em que o re
 Art. 277. Para os cursos técnicos na forma integrada, é vedada a certificação de conhecimentos de disciplinas referentes aos núcleos fundamental e estruturante.\n 
 """
 
-txt_faq_seac4 = f"""Emissão de Diploma
+txt_faq_seac5 = f"""Como solicitar emissão de Diploma❓\n
 A solicitação deverá ser realizada através de chamado no SUAP, anexando cópia do RG, CPF, Certidão de Nascimento/ Casamento e Nada-Consta (O documento é feito virtualmente pela SEAC).
-Prazo de atendimento é de até 30 dias.
+O prazo de atendimento é de até 30 dias.\n
+{txt_comum}
+"""
 
+txt_faq_seac6 = f"""Como solicitar transferências❓\n
+I.	TRANSFERÊNCIA COMPULSÓRIA:\n
+Art. 201. Nos casos de transferência de servidor público civil ou militar, removido ex-oficio e de seus dependentes – quando for caracterizada a interrupção de estudos, a matrícula será concedida independentemente de vaga e de prazos estabelecidos, caracterizando a TRANSFERÊNCIA COMPULSÓRIA.\n
+II.	TRANSFERÊNCIA POR DEFERIMENTO:\n
+Art. 202. Em caso de mudança de domicílio de estudantes trabalhadores ou dos seus responsáveis, para estudante regularmente matriculado no IFRN, poderá ser concedida a TRANSFERÊNCIA POR DEFERIMENTO, após análise de processo pela Pró-reitora de Ensino, formulado pelo estudante, constando parecer da pedagogia e do serviço social do campus ao qual o estudante está vinculado, comprovando a impossibilidade da permanência.\n
+{txt_comum}
+"""
+
+txt_faq_seac7 = f"""Como fazer a renovação de matrícula❓\n
+A renovação de matrícula para cada período letivo deverá ser efetuada, obrigatoriamente, em data prevista no calendário acadêmico do campus de vinculação do estudante, mediante preenchimento de formulário próprio no SUAP.
+Necessitarão fazer a renovação de matrícula todos os estudantes regularmente matriculados, inclusive aqueles com matrícula trancada e em realização de prática profissional.\n
+⚠ Art. 209. O estudante com direito à renovação de matrícula que deixar de efetuá-la dentro dos prazos previstos deverá justificar o fato à respectiva Diretoria Acadêmica em até 20 (vinte) dias corridos. Após a data final estabelecida, será considerado desistente e terá sua matrícula cancelada por evasão.
+⚠ Parágrafo único. O processo de evasão deverá ser precedido de apuração, em que será dado ao estudante o direito à ampla defesa.\n 
+{txt_comum}
+"""
+
+txt_faq_seac8 = """Como realizar inscrição em disciplina❓\n
+Art. 210. Para os estudantes dos cursos com sistema de crédito, deverá ser realizada, semestralmente, no período especificado no calendário acadêmico do campus de vinculação do estudante, a Inscrição em Disciplinas.
+Parágrafo Único. Entende-se por Inscrição em Disciplinas a seleção formal das disciplinas a serem cursadas no período letivo subsequente.\n
+Art. 211. No semestre de ingresso no curso, o estudante deverá cursar todas as disciplinas constantes na matriz curricular, compatíveis com o seu período de referência.\n
+Art. 212. Para a matrícula por disciplinas, dentre as que estão sendo ofertadas no período letivo:
+I.	o estudante deverá cursar, em cada período letivo, no mínimo, 3 (três) disciplinas e, no máximo, o número de disciplinas do período de referência mais 2 (duas) disciplinas; e 
+II.	o estudante poderá cursar disciplinas de semestres distintos da matriz curricular, desde que sejam até 2 (dois) períodos subsequentes ao período de referência.
+Parágrafo único. Caso o estudante só esteja apto a cursar menos de três disciplinas, deverá ser realizada a matrícula em todas as disciplinas possíveis.\n 
+Art. 213. O estudante que não efetuar a inscrição em disciplinas será automaticamente matriculado nas disciplinas do período compatível com seu período de referência, não cabendo recurso.\n
+Art. 214. A seleção para disciplinas em que haja mais candidatos que vagas será realizada considerando a seguinte ordem: 
+I.	maior compatibilidade com o período da disciplina, caracterizado pelo período de referência do estudante e da disciplina; e 
+II. classificação decrescente do Índice de Rendimento Acadêmico (IRA).
+"""
+
+txt_faq_seac9 = f"""Como solicitar trancamento de matrícula❓\n
+O trancamento de matrícula poderá ocorrer de forma compulsória ou voluntária.\n
+Entende-se por trancamento de matrícula compulsório aquele em que o estudante necessite interromper os estudos nos seguintes casos, devidamente comprovados e atestados:
+⚠ convocação para o serviço militar obrigatório (ao completar 18 anos); 
+⚠ tratamento prolongado de saúde pessoal ou de familiares em primeiro grau, quando não couber o atendimento domiciliar especial; Organização Didática do IFRN.
+⚠ gravidez de alto risco ou problemas pós-parto; \nIV. intercâmbio educacional promovido pelo IFRN.\n
+Entende-se por trancamento de matrícula voluntário aquele em que o estudante faz a opção pela interrupção dos estudos.\n 
+⚠ A solicitação de trancamento de matrícula deverá ser feita mediante requerimento à Diretoria Acadêmica, pelo próprio estudante, quando maior de idade, ou por seu representante legal, quando menor de idade. O trancamento de matrícula só terá validade de 1 (um) período letivo.\n
+⚠ O trancamento de matrícula compulsório pode ser requerido em qualquer época do período letivo e não será computado para efeito de contagem de tempo máximo para integralização curricular.
+⚠ Nos casos em que, por reprovação ou trancamento de matrícula do estudante, não houver oferta de disciplinas pela Diretoria Acadêmica ao qual o estudante está vinculado, deverá ser realizada MATRÍCULA COM VÍNCULO.
+⚠ Em caso de matrícula com vínculo, o estudante deverá ser orientado pelo Coordenador do Curso para o desenvolvimento de atividades acadêmicas extracurriculares durante o período equivalente.
+⚠ O período letivo de permanência em matrícula com vínculo não será computado para efeito de contagem de tempo máximo para integralização curricular.
+⚠ O trancamento voluntário somente será autorizado após a integralização de todos os componentes curriculares do primeiro período do curso. 
+⚠ Para os estudantes com admissão por reingresso e transferência, o trancamento voluntário só poderá ser concedido quando for integralizado o período em que foi posicionado após a realização do aproveitamento dos estudos.
+⚠ O trancamento de matrícula voluntário deverá ser solicitado no período previsto no calendário acadêmico do campus de vinculação do estudante. 
+⚠ O estudante só poderá trancar matrícula, na forma voluntária, até 2 (duas) vezes durante todo o curso, e o tempo de trancamento será contabilizado para efeito de cálculo do prazo máximo para integralização curricular.
+⚠ Ao retomar às atividades acadêmicas, o estudante retomará o período letivo interrompido por ocasião do trancamento.
+⚠ Nos cursos com regime de crédito, o estudante fará o procedimento de inscrição em disciplinas.
+⚠ Nos cursos com regime seriado ou modular, o estudante deverá ser matriculado em todas as disciplinas da série ou módulo.
+⚠ Os estudantes com matrícula trancada cujo curso venha a sofrer mudanças no currículo deverão fazer as adaptações necessárias à nova situação.\n
+⚠ {txt_comum}
+"""
+
+txt_faq_seac10 = """Como solicitar o Cancelamento de Disciplina ❓\n
+Art. 222. Será permitido o cancelamento de disciplinas para os estudantes dos cursos com regime de crédito, respeitado o prazo estabelecido no calendário acadêmico do campus de vinculação do estudante. 
+Parágrafo Único. Não será permitido o cancelamento de disciplinas para os cursos com regime seriado.\n
+Art. 223. O cancelamento de disciplinas não será concedido para disciplinas constantes do primeiro período na matriz curricular do curso.\n 
+Art. 224. O cancelamento de disciplina implica, obrigatoriamente, o cancelamento do projeto integrador vinculado.\n
+Art. 225. Cada disciplina poderá ser cancelada apenas uma vez. Para requerer o cancelamento de matrícula em disciplina, o estudante deverá realizar as seguintes etapas:
+1) Fazer login por meio do endereço suap.ifrn.edu.br;
+2) No menu clique em "ENSINO", e em "Dados do Aluno";
+3) Clique na aba "Requerimentos". Depois clique no botão "Adicionar Requerimento";
+4) Escolha "Cancelamento de Disciplina" no campo tipo do requerimento. Insira uma justificativa no campo "Descrição/Justificativa". Clique no botão "Salvar"; 
+5) Caso tenha menos de 18 anos, anexe a imagem do RG do responsável legal. \nPronto! O requerimento foi criado. Assim que os servidores da secretaria Acadêmica abrirem o requerimento, a solicitação será avaliada e posteriormente será realizado o cancelamento da disciplina.
 """

@@ -1,9 +1,10 @@
+import botoes
+import texto
+import gtts
+import logging
 from telegram import Update, InlineKeyboardMarkup
 from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler
-import logging
-import gtts
-import texto
-import botoes
+
 
 historico = []
 logging.basicConfig(
@@ -42,9 +43,10 @@ def balloon(update: Update, context: CallbackContext) -> None:
             reply_markup=botoes.setor_line()
         )
     elif texto.VOLTAR_FAQ_SEAC in query.data:
+        historico.append(texto.FAQ_SEAC)
         handler.edit_message_text(
             text=texto.txt_seac + texto.FAQ,
-            reply_markup=botoes.faq_seac
+            reply_markup=botoes.faq_seac(historico)
         )
     elif texto.SEAC_SGA in query.data:
         handler.edit_message_text(
@@ -92,12 +94,66 @@ def balloon(update: Update, context: CallbackContext) -> None:
             text=texto.txt_coex + texto.FAQ,
             reply_markup=botoes.regressar_setor_line(historico)
         )
+    if "faq_seac5" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac5,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+    if "faq_seac6" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac6,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+    if "faq_seac7" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac7,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+    if "faq_seac8" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac8,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+    if "faq_seac9" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac9,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+    if "faq_seacc10" in query.data:
+        handler.edit_message_text(
+            text=texto.txt_faq_seac10,
+            reply_markup=botoes.regressar_faq_seac,
+        )
+#    if "FAQ_coex" in query.data:
+#        handler.edit_message_text(
+#            text=texto.txt_coex + texto.FAQ,
+#            reply_markup=botoes.regressar_setor_line
+#        )
+    # registro dos botões utilizados por usuário.
+    print(f'{update.effective_user.full_name} utilizou {query.data}')
 
 
 def iniciar() -> None:
     token = "5241177916:AAHZUC5gimNEyosHBngN5-KELqBSYauthok"
     updater = Updater(token)
     dispatcher = updater.dispatcher
+
+    # https://pt.stackoverflow.com/questions/297721/timeout-na-função-input-do-python
+    # import signal
+
+    # def timeout(signum, frame):
+    #    raise Exception('Seu tempo acabou!')
+
+    # signal.signal(signal.SIGALRM, timeout)
+    # signal.alarm(5)
+
+    # try:
+    #    signal.alarm(5)
+    #    name = input('Qual é o seu nome? ')
+    #    signal.alarm(0)
+    #    print('Seja bem-vindo,', name)
+    # except Exception as e:
+    #    print(e)
 
 # Iniciar comandos da função quando solicitadas
     dispatcher.add_handler(MessageHandler(Filters.all, start))
