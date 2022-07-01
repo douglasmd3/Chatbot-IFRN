@@ -18,32 +18,37 @@ contato_seac = [[InlineKeyboardButton(
 contato_seac = InlineKeyboardMarkup(contato_seac)
 
 # MENU 4 - FAQ-SEAC: CHAMADA POR FAQ_seac + OPÇÕES DE VOLTAR INICIO OU MENU 4 PARA MENU 3
-faq_seac = [
-    [InlineKeyboardButton("🏠", callback_data="HOME"),
-     InlineKeyboardButton("↩", callback_data="MENU3")],
-    [InlineKeyboardButton(
-        "01 - Justificativa de Faltas/Reposição de Atividades❓", callback_data="faq_seac1")],
-    [InlineKeyboardButton("02 - Mudança de tuno/Turma❓",
-                          callback_data="faq_seac2")],
-    [InlineKeyboardButton("03 - Aproveitamento de Estudos❓",
-                          callback_data="faq_seac3")],
-    [InlineKeyboardButton(
-        "04 - Certificação de conhecimentos❓", callback_data="faq_seac4")],
-    [InlineKeyboardButton("05 - Emissão de Diploma❓",
-                          callback_data="faq_seac5")],
-    [InlineKeyboardButton("06 – Transferências❓", callback_data="faq_seac6")],
-    [InlineKeyboardButton("07 – Renovação de Matrícula❓",
-                          callback_data="faq_seac7")],
-    [InlineKeyboardButton("08 – Inscrição em Disciplina❓",
-                          callback_data="faq_seac8")],
-    [InlineKeyboardButton("09 – Trancamento de Matrícula❓",
-                          callback_data="faq_seac9")],
-    [InlineKeyboardButton("10 - Cancelamento de Disciplina❓",
-                          callback_data="faq_seacc10")],
-    [InlineKeyboardButton("🏠", callback_data="HOME"),
-     InlineKeyboardButton("↩", callback_data="MENU3")],
-]
-faq_seac = InlineKeyboardMarkup(faq_seac)
+
+
+def faq_seac():
+    print("faq_seac")
+    return [
+        [InlineKeyboardButton("🏠", callback_data="HOME"),
+         InlineKeyboardButton("↩", callback_data="MENU3")],
+        [InlineKeyboardButton(
+            "01 - Justificativa de Faltas/Reposição de Atividades❓", callback_data="faq_seac1")],
+        [InlineKeyboardButton("02 - Mudança de tuno/Turma❓",
+                              callback_data="faq_seac2")],
+        [InlineKeyboardButton("03 - Aproveitamento de Estudos❓",
+                              callback_data="faq_seac3")],
+        [InlineKeyboardButton(
+            "04 - Certificação de conhecimentos❓", callback_data="faq_seac4")],
+        [InlineKeyboardButton("05 - Emissão de Diploma❓",
+                              callback_data="faq_seac5")],
+        [InlineKeyboardButton("06 – Transferências❓",
+                              callback_data="faq_seac6")],
+        [InlineKeyboardButton("07 – Renovação de Matrícula❓",
+                              callback_data="faq_seac7")],
+        [InlineKeyboardButton("08 – Inscrição em Disciplina❓",
+                              callback_data="faq_seac8")],
+        [InlineKeyboardButton("09 – Trancamento de Matrícula❓",
+                              callback_data="faq_seac9")],
+        [InlineKeyboardButton("10 - Cancelamento de Disciplina❓",
+                              callback_data="faq_seacc10")],
+        [InlineKeyboardButton("🏠", callback_data="HOME"),
+         InlineKeyboardButton("↩", callback_data="MENU3")],
+    ]
+
 
 # MENU 5 - OP. FAQ-SEAC: CHAMADA POR OP. FAQ-SEAC + OPÇÕES DE VOLTAR INICIO OU MENU 5 PARA MENU 4
 regressar_faq_seac = [

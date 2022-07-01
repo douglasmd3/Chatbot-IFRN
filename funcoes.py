@@ -43,9 +43,10 @@ def balloon(update: Update, context: CallbackContext) -> None:
             reply_markup=botoes.setor_line()
         )
     elif texto.VOLTAR_FAQ_SEAC in query.data:
+        historico.append(texto.FAQ_SEAC)
         handler.edit_message_text(
             text=texto.txt_seac + texto.FAQ,
-            reply_markup=botoes.faq_seac
+            reply_markup=botoes.faq_seac(historico)
         )
     elif texto.SEAC_SGA in query.data:
         handler.edit_message_text(
