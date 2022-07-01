@@ -1,8 +1,8 @@
 import botoes
 import texto
-import gtts
+# import gtts
 import logging
-from telegram import Update, InlineKeyboardMarkup
+from telegram import Update
 from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler
 
 
