@@ -1,2 +1,2 @@
-web: python funcoes.py
+#web: python funcoes.py
 worker: python funcoes.py
