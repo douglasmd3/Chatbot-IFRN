@@ -2,7 +2,7 @@ import botoes
 import texto
 # import gtts
 import logging
-from telegram import Update
+from telegram import ReplyMarkup, Update
 from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler
 
 
@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 def start(update: Update, context: CallbackContext) -> None:
+    historico.clear()
     context.bot.send_photo(
         chat_id=update.effective_message.chat_id,
         photo=open('Imagens/Imagem-Inicial.jpg', 'rb'),
@@ -25,111 +26,80 @@ def start(update: Update, context: CallbackContext) -> None:
     )
 
 
+def sendResposta(handler, text, reply_markup):
+    if text != "":
+        handler.edit_message_text(text=text, reply_markup=reply_markup)
+
+
+def responsehistorico(opcao):
+    print("opcao>>", opcao)
+    historico.append(opcao)
+    botoes.regressar_setor_line(historico)
+
+
+def getReplyMarkup(option):
+    replyMarkup = {
+        texto.HOME: botoes.start_lines(),
+        texto.ESTRUTURA_ADMINISTRATIVA: botoes.setor_line(),
+        texto.SEAC_SGA: botoes.menu_seac(),
+        texto.VOLTAR_FAQ_SEAC: botoes.faq_seac(),
+        texto.CONTATO_SEAC: botoes.contato_seac(),
+        # texto.CONTATO_SEAC: responsehistorico(texto.SEAC_SGA),
+        texto.COEX_SGA: botoes.menu_coex(),
+        texto.CONTATO_COEX: responsehistorico(texto.COEX_SGA),
+        texto.FAQ_SEAC: botoes.faq_seac(),
+        # texto.FAQ_SEAC: responsehistorico(texto.SEAC_SGA),
+        # **dict.fromkeys([texto.FAQSEAC1, "faq_seac2", "faq_seac3", "faq_seac4", "faq_seac5", "faq_seac6", "faq_seac7", "faq_seac8", "faq_seac9", "faq_seac10"], responsehistorico(texto.VOLTAR_FAQ_SEAC)),
+        texto.FAQSEAC1: botoes.regressar_faq_seac(), "faq_seac2": botoes.regressar_faq_seac(), "faq_seac3": botoes.regressar_faq_seac(), "faq_seac4": botoes.regressar_faq_seac(), "faq_seac5": botoes.regressar_faq_seac(), "faq_seac6": botoes.regressar_faq_seac(), "faq_seac7": botoes.regressar_faq_seac(), "faq_seac8": botoes.regressar_faq_seac(), "faq_seac9": botoes.regressar_faq_seac(), "faq_seac10": botoes.regressar_faq_seac(),
+        texto.FAQ_COEX: responsehistorico(texto.FAQ_COEX)
+    }
+    # if option == texto.FAQSEAC1:
+    #     print(option, replyMarkup.get(option))
+    #     return botoes.regressar_faq_seac()
+
+    return replyMarkup.get(option)
+
+
+def getResponseText(option, update):
+    text = {
+        texto.HOME: f'Olá, {update.effective_user.full_name}! ' +
+        texto.start_texto,
+        texto.ESTRUTURA_ADMINISTRATIVA: "Escolha uma opção disponível para continuar 👇",
+        texto.SEAC_SGA: texto.txt_seac,
+        texto.VOLTAR_FAQ_SEAC: texto.txt_seac + texto.FAQ,
+        texto.CONTATO_SEAC: texto.txt_seac + texto.seac_contato,
+        texto.COEX_SGA: texto.txt_coex,
+        texto.CONTATO_COEX: texto.txt_coex + texto.coex_contato,
+        texto.FAQ_SEAC: texto.txt_seac + texto.FAQ,
+        texto.FAQSEAC1: texto.txt_faq_seac1,
+        "faq_seac2": texto.txt_faq_seac2,
+        "faq_seac5": texto.txt_faq_seac5,
+        "faq_seac6": texto.txt_faq_seac6,
+        "faq_seac7": texto.txt_faq_seac7,
+        "faq_seac8": texto.txt_faq_seac8,
+        "faq_seac9": texto.txt_faq_seac9,
+        "faq_seac10": texto.txt_faq_seac10,
+        texto.FAQ_COEX: texto.txt_coex + texto.FAQ,
+    }
+
+    return text.get(option)
+
+
+def getResponseTextReplyMarkup(option, update):
+    return [getResponseText(option, update), getReplyMarkup(option)]
+
+
 def balloon(update: Update, context: CallbackContext) -> None:
 
     query = update.callback_query
     handler = query
     handler.answer()
 
-    if texto.HOME in query.data:
-        handler.edit_message_text(
-            text=f'Olá, {update.effective_user.full_name}! ' +
-            texto.start_texto,
-            reply_markup=botoes.start_lines()
-        )
-    elif texto.ESTRUTURA_ADMINISTRATIVA in query.data or "MENU2" in query.data:
-        handler.edit_message_text(
-            text="Escolha uma opção disponível para continuar 👇",
-            reply_markup=botoes.setor_line()
-        )
-    elif texto.VOLTAR_FAQ_SEAC in query.data:
-        historico.append(texto.FAQ_SEAC)
-        handler.edit_message_text(
-            text=texto.txt_seac + texto.FAQ,
-            reply_markup=botoes.faq_seac(historico)
-        )
-    elif texto.SEAC_SGA in query.data:
-        handler.edit_message_text(
-            text=texto.txt_seac,
-            reply_markup=botoes.menu_seac()
-        )
-    elif texto.CONTATO_SEAC in query.data:
-        historico.append(texto.SEAC_SGA)
-        handler.edit_message_text(
-            text=texto.txt_seac + texto.seac_contato,
-            reply_markup=botoes.regressar_setor_line(historico)
-        )
-    elif texto.COEX_SGA in query.data:
-        handler.edit_message_text(
-            text=texto.txt_coex,
-            reply_markup=botoes.menu_coex()
-        )
-    elif texto.CONTATO_COEX in query.data:
-        historico.append(texto.COEX_SGA)
-        print(historico, texto.CONTATO_COEX)
-        handler.edit_message_text(
-            text=texto.txt_coex + texto.coex_contato,
-            reply_markup=botoes.regressar_setor_line(historico)
-        )
-    elif texto.FAQ_SEAC in query.data:
-        historico.append(texto.SEAC_SGA)
-        handler.edit_message_text(
-            text=texto.txt_seac + texto.FAQ,
-            reply_markup=botoes.faq_seac(historico)
-        )
-    elif "faq_seac1" in query.data:
-        historico.append(texto.SEAC_SGA)
-        handler.edit_message_text(
-            text=texto.txt_faq_seac1,
-            reply_markup=botoes.regressar_faq_seac
-        )
-    elif "faq_seac2" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac2,
-            reply_markup=botoes.regressar_faq_seac
-        )
-    elif texto.FAQ_COEX in query.data:
-        historico.append(texto.COEX_SGA)
-        handler.edit_message_text(
-            text=texto.txt_coex + texto.FAQ,
-            reply_markup=botoes.regressar_setor_line(historico)
-        )
-    if "faq_seac5" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac5,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-    if "faq_seac6" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac6,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-    if "faq_seac7" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac7,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-    if "faq_seac8" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac8,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-    if "faq_seac9" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac9,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-    if "faq_seacc10" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac10,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-#    if "FAQ_coex" in query.data:
-#        handler.edit_message_text(
-#            text=texto.txt_coex + texto.FAQ,
-#            reply_markup=botoes.regressar_setor_line
-#        )
-    # registro dos botões utilizados por usuário.
+    argumentos = getResponseTextReplyMarkup(query.data, update)
+    sendResposta(handler, argumentos[0], argumentos[1])
+
+
+# registro dos botões utilizados por usuário.
     print(f'{update.effective_user.full_name} utilizou {query.data}')
 
 

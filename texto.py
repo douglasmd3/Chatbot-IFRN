@@ -9,6 +9,7 @@ FAQ_SEAC = "FAQ_SEAC"
 FAQ_COEX = "FAQ_COEX"
 start_texto = "Para prosseguir, selecione uma opção disponível que poderá lhe ajudar no seu atendimento 👇"
 
+FAQSEAC1 = "faq_seac1"
 txt_seac = """A secretaria Acadêmica | SEAC é o setor responsável pelo controle, verificação, registro e arquivamento da documentação da vida acadêmica do aluno, desde seu ingresso na Instituição, até a conclusão e/ou expedição do diploma.\n\nA missão da Secretaria Acadêmica é realizar com presteza e eficácia todos os procedimentos que envolvem o controle e o registro acadêmico, assim como orientar os alunos para os mesmos."""
 
 seac_contato = """\n
