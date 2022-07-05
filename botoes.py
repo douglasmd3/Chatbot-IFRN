@@ -19,6 +19,11 @@ def contato_seac():
     return InlineKeyboardMarkup([[InlineKeyboardButton(
         "🏠", callback_data="HOME"), InlineKeyboardButton("↩", callback_data=texto.SEAC_SGA)]])
 
+
+def contato_coex():
+    return InlineKeyboardMarkup([[InlineKeyboardButton(
+        "🏠", callback_data="HOME"), InlineKeyboardButton("↩", callback_data=texto.COEX_SGA)]])
+
 # MENU 4 - FAQ-SEAC: CHAMADA POR FAQ_seac + OPÇÕES DE VOLTAR INICIO OU MENU 4 PARA MENU 3
 
 
@@ -89,7 +94,7 @@ def menu_coex():
 
         [InlineKeyboardButton("🏠", callback_data=texto.HOME), InlineKeyboardButton(
             "↩", callback_data=texto.ESTRUTURA_ADMINISTRATIVA)],
-        [InlineKeyboardButton("📞 Contatos e Canais", callback_data="Contato_coex"),
+        [InlineKeyboardButton("📞 Contatos e Canais", callback_data=texto.CONTATO_COEX),
          InlineKeyboardButton("❓ Perguntas Frequentes", callback_data=texto.FAQ_COEX)],
     ])
 

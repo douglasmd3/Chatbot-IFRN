@@ -34,7 +34,7 @@ def sendResposta(handler, text, reply_markup):
 def responsehistorico(opcao):
     print("opcao>>", opcao)
     historico.append(opcao)
-    botoes.regressar_setor_line(historico)
+    return botoes.regressar_setor_line(historico)
 
 
 def getReplyMarkup(option):
@@ -46,12 +46,12 @@ def getReplyMarkup(option):
         texto.CONTATO_SEAC: botoes.contato_seac(),
         # texto.CONTATO_SEAC: responsehistorico(texto.SEAC_SGA),
         texto.COEX_SGA: botoes.menu_coex(),
-        texto.CONTATO_COEX: responsehistorico(texto.COEX_SGA),
+        texto.CONTATO_COEX: botoes.contato_coex(),
         texto.FAQ_SEAC: botoes.faq_seac(),
         # texto.FAQ_SEAC: responsehistorico(texto.SEAC_SGA),
         # **dict.fromkeys([texto.FAQSEAC1, "faq_seac2", "faq_seac3", "faq_seac4", "faq_seac5", "faq_seac6", "faq_seac7", "faq_seac8", "faq_seac9", "faq_seac10"], responsehistorico(texto.VOLTAR_FAQ_SEAC)),
         texto.FAQSEAC1: botoes.regressar_faq_seac(), "faq_seac2": botoes.regressar_faq_seac(), "faq_seac3": botoes.regressar_faq_seac(), "faq_seac4": botoes.regressar_faq_seac(), "faq_seac5": botoes.regressar_faq_seac(), "faq_seac6": botoes.regressar_faq_seac(), "faq_seac7": botoes.regressar_faq_seac(), "faq_seac8": botoes.regressar_faq_seac(), "faq_seac9": botoes.regressar_faq_seac(), "faq_seac10": botoes.regressar_faq_seac(),
-        texto.FAQ_COEX: responsehistorico(texto.FAQ_COEX)
+        texto.FAQ_COEX: responsehistorico(texto.COEX_SGA)
     }
     # if option == texto.FAQSEAC1:
     #     print(option, replyMarkup.get(option))
@@ -96,6 +96,9 @@ def balloon(update: Update, context: CallbackContext) -> None:
     handler.answer()
 
     argumentos = getResponseTextReplyMarkup(query.data, update)
+    print(query.data)
+    if query.data == texto.CONTATO_COEX:
+        print(argumentos[0], argumentos[1])
     sendResposta(handler, argumentos[0], argumentos[1])
 
 
