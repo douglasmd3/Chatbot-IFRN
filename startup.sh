@@ -5,5 +5,6 @@ python3 funcoes.py
 
 ## Heroku steps
 # heroku login
-# heroku git:remote -a ifrn-sga-bot
+# heroku create remote -> git:remote -a ifrn-sga-bot
+#deploy in heroku -> git push heroku main
 # tutorial => https://devcenter.heroku.com/articles/heroku-cli
