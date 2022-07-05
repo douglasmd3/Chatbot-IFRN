@@ -1,25 +1,19 @@
-import logging, gtts, texto, botoes
-from telegram import Update, InlineKeyboardMarkup
-from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler, CommandHandler
+import botoes
+import texto
+# import gtts
+import logging
+from telegram import ReplyMarkup, Update
+from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler
 
 
 historico = []
-users = []
-cont_users = 0
-likes = 0
-dislikes = 0
-
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 def start(update: Update, context: CallbackContext) -> None:
-    global  cont_users
-    cont_users +=1
-    users.append(f'{update.effective_user.full_name}')
-#    print(f'{users.pop()} foi o usuário Nº{cont_users}')
-    print(f'{users.pop()} interagiu com o  bot {cont_users}x')
+    historico.clear()
     context.bot.send_photo(
         chat_id=update.effective_message.chat_id,
         photo=open('Imagens/Imagem-Inicial.jpg', 'rb'),
@@ -30,169 +24,83 @@ def start(update: Update, context: CallbackContext) -> None:
         text=texto.start_texto,
         reply_markup=botoes.start_lines()
     )
+
+
+def sendResposta(handler, text, reply_markup):
+    if text != "":
+        handler.edit_message_text(text=text, reply_markup=reply_markup)
+
+
+def responsehistorico(opcao):
+    historico.append(opcao)
+    return botoes.regressar_setor_line(historico)
+
+
+def getReplyMarkup(option):
+    replyMarkup = {
+        texto.HOME: botoes.start_lines(),
+        texto.ESTRUTURA_ADMINISTRATIVA: botoes.setor_line(),
+        texto.SEAC_SGA: botoes.menu_seac(),
+        texto.VOLTAR_FAQ_SEAC: botoes.faq_seac(),
+        texto.CONTATO_SEAC: botoes.contato_seac(),
+        # texto.CONTATO_SEAC: responsehistorico(texto.SEAC_SGA),
+        texto.COEX_SGA: botoes.menu_coex(),
+        texto.CONTATO_COEX: botoes.contato_coex(),
+        texto.FAQ_SEAC: botoes.faq_seac(),
+        # texto.FAQ_SEAC: responsehistorico(texto.SEAC_SGA),
+        # **dict.fromkeys([texto.FAQSEAC1, "faq_seac2", "faq_seac3", "faq_seac4", "faq_seac5", "faq_seac6", "faq_seac7", "faq_seac8", "faq_seac9", "faq_seac10"], responsehistorico(texto.VOLTAR_FAQ_SEAC)),
+        texto.FAQSEAC1: botoes.regressar_faq_seac(), "faq_seac2": botoes.regressar_faq_seac(), "faq_seac3": botoes.regressar_faq_seac(), "faq_seac4": botoes.regressar_faq_seac(), "faq_seac5": botoes.regressar_faq_seac(), "faq_seac6": botoes.regressar_faq_seac(), "faq_seac7": botoes.regressar_faq_seac(), "faq_seac8": botoes.regressar_faq_seac(), "faq_seac9": botoes.regressar_faq_seac(), "faq_seac10": botoes.regressar_faq_seac(),
+        texto.FAQ_COEX: responsehistorico(texto.COEX_SGA)
+    }
+    # if option == texto.FAQSEAC1:
+    #     print(option, replyMarkup.get(option))
+    #     return botoes.regressar_faq_seac()
+
+    return replyMarkup.get(option)
+
+
+def getResponseText(option, update):
+    text = {
+        texto.HOME: f'Olá, {update.effective_user.full_name}! ' +
+        texto.start_texto,
+        texto.ESTRUTURA_ADMINISTRATIVA: "Escolha uma opção disponível para continuar 👇",
+        texto.SEAC_SGA: texto.txt_seac,
+        texto.VOLTAR_FAQ_SEAC: texto.txt_seac + texto.FAQ,
+        texto.CONTATO_SEAC: texto.txt_seac + texto.seac_contato,
+        texto.COEX_SGA: texto.txt_coex,
+        texto.CONTATO_COEX: texto.txt_coex + texto.coex_contato,
+        texto.FAQ_SEAC: texto.txt_seac + texto.FAQ,
+        texto.FAQSEAC1: texto.txt_faq_seac1,
+        "faq_seac2": texto.txt_faq_seac2,
+        "faq_seac5": texto.txt_faq_seac5,
+        "faq_seac6": texto.txt_faq_seac6,
+        "faq_seac7": texto.txt_faq_seac7,
+        "faq_seac8": texto.txt_faq_seac8,
+        "faq_seac9": texto.txt_faq_seac9,
+        "faq_seac10": texto.txt_faq_seac10,
+        texto.FAQ_COEX: texto.txt_coex + texto.FAQ,
+    }
+
+    return text.get(option)
+
+
+def getResponseTextReplyMarkup(option, update):
+    return [getResponseText(option, update), getReplyMarkup(option)]
+
+
 def balloon(update: Update, context: CallbackContext) -> None:
 
     query = update.callback_query
     handler = query
     handler.answer()
 
-    global likes, dislikes
+    argumentos = getResponseTextReplyMarkup(query.data, update)
+    sendResposta(handler, argumentos[0], argumentos[1])
 
-    if "Avaliar" in query.data or "/sugeir" in query.data:
-        handler.edit_message_text(
-            text=f'{update.effective_user.full_name}, ' + 'qual a sua avaliação:?',
-            reply_markup=botoes.buttons
-        )
-    if "good" in query.data:
-        likes +=1
-        handler.edit_message_text(
-            text=f'{update.effective_user.full_name} ' + f'{texto.txt_avaliacao}',
-            reply_markup=botoes.regressar_setor_line()
-        )
-    if "bad" in query.data:
-        dislikes +=1
-        handler.edit_message_text(
-            text=f'{update.effective_user.full_name} ' + f'{texto.txt_avaliacao}',
-        )
-    W = f"likes => {likes} and dislikes => {dislikes}"
-    arquivo = open("fones.txt", "w", encoding='utf-8')
-    arquivo.write(W)
-    arquivo.close()
 
-    print(f"likes => {likes} and dislikes => {dislikes}")
-
-    if texto.HOME in query.data:
-        handler.edit_message_text(
-            text=f'Olá, {update.effective_user.full_name}! ' + texto.start_texto,
-            reply_markup=botoes.start_lines()
-        )
-    elif texto.ESTRUTURA_ADMINISTRATIVA in query.data or "MENU2" in query.data:
-        handler.edit_message_text(
-            text="Escolha uma opção disponível para continuar 👇",
-            reply_markup=botoes.setor_line()
-        )
-    elif texto.VOLTAR_FAQ_SEAC in query.data:
-        historico.append(texto.FAQ_SEAC)
-        handler.edit_message_text(
-            text=texto.txt_seac + texto.FAQ,
-            reply_markup=botoes.faq_seac(historico)
-        )
-    elif texto.SEAC_SGA in query.data:
-        handler.edit_message_text(
-            text=texto.txt_seac,
-            reply_markup=botoes.menu_seac()
-        )
-    elif texto.CONTATO_SEAC in query.data:
-        historico.append(texto.SEAC_SGA)
-        handler.edit_message_text(
-            text=texto.txt_seac + texto.seac_contato,
-            reply_markup=botoes.regressar_setor_line(historico)
-        )
-    elif texto.COEX_SGA in query.data:
-        handler.edit_message_text(
-            text=texto.txt_coex,
-            reply_markup=botoes.menu_coex()
-        )
-    elif texto.CONTATO_COEX in query.data:
-        historico.append(texto.COEX_SGA)
-        print(historico, texto.CONTATO_COEX)
-        handler.edit_message_text(
-            text=texto.txt_coex + texto.coex_contato,
-            reply_markup=botoes.regressar_setor_line(historico)
-        )
-    elif texto.FAQ_SEAC in query.data:
-        historico.append(texto.SEAC_SGA)
-        handler.edit_message_text(
-            text=texto.txt_seac + texto.FAQ,
-            reply_markup=botoes.faq_seac(historico)
-        )
-    #    if "FAQ_coex" in query.data:
-    #        handler.edit_message_text(
-    #            text=texto.txt_coex + texto.FAQ,
-    #            reply_markup=botoes.regressar_setor_line
-    #        )
-    elif texto.FAQ_COEX in query.data:
-        historico.append(texto.COEX_SGA)
-        handler.edit_message_text(
-            text=texto.txt_coex + texto.FAQ,
-            reply_markup=botoes.regressar_setor_line(historico)
-        )
-        context.bot.send_sticker(
-            chat_id=update.effective_message.chat_id,
-            sticker='CAACAgIAAxkBAAIIWGJ6ipBYCf4X-anOjilu_zYolIs2AAK9AAP3AsgPHZqqRFvYN5okBA'
-        )
-        context.bot.send_message(
-        chat_id=update.effective_message.chat_id,
-        text="Isso é constrangedor e lamentamos 😩 este item não possui campos informativos 😓"\
-        "se utilizou este item e for lhe ajudar 🫣 siga as instruções dadas no menu acima em 1, 2 ou 3 sinalizadas ⚠"
-        )
-    elif "faq_seac1" in query.data:
-        historico.append(texto.SEAC_SGA)
-        handler.edit_message_text(
-            text=texto.txt_faq_seac1,
-            reply_markup=botoes.regressar_faq_seac
-        )
-        audio_faq_seac1 = gtts.gTTS(texto.txt_faq_seac1, lang='pt-br')
-        audio_faq_seac1.save('Audios/audio_faq_seac1.mp3')
-        context.bot.send_audio(
-            chat_id=update.effective_message.chat_id,
-            audio=open('Audios/audio_faq_seac1.mp3', 'rb'),
-        )
-    elif "faq_seac2" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac2,
-            reply_markup=botoes.regressar_faq_seac
-        )
-    if "faq_seac3" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac3,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-    if "faq_seac4" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac4 + texto.txt_comum,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-        audio_faq_seac4 = gtts.gTTS(texto.txt_faq_seac4, lang='pt')  # linha necessária apenas para converter o texto.
-        audio_faq_seac4.save(
-            'Audios/audio_faq_seac4.mp3')  # quando o arquivo for criado não é necessário pois pode haver demora ao refazer a conversão de texto e sobrescrever o mesmo arquivo.
-        context.bot.send_audio(  # se o arquivo já existir, basta envia - lo diretamente sem nova conversão.
-            chat_id=update.effective_message.chat_id,
-            audio=open('Audios/audio_faq_seac4.mp3', 'rb'),
-        )
-    if "faq_seac5" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac5,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-    if "faq_seac6" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac6,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-    if "faq_seac7" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac7,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-    if "faq_seac8" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac8,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-    if "faq_seac9" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac9,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-    if "faq_seacc10" in query.data:
-        handler.edit_message_text(
-            text=texto.txt_faq_seac10,
-            reply_markup=botoes.regressar_faq_seac,
-        )
-
-    # registro dos botões utilizados por usuário.
+# registro dos botões utilizados por usuário.
     print(f'{update.effective_user.full_name} utilizou {query.data}')
+
 
 def iniciar() -> None:
     token = "5241177916:AAHZUC5gimNEyosHBngN5-KELqBSYauthok"
@@ -218,7 +126,6 @@ def iniciar() -> None:
 
 # Iniciar comandos da função quando solicitadas
     dispatcher.add_handler(MessageHandler(Filters.all, start))
-    dispatcher.add_handler(CommandHandler('sugerir', balloon))
     updater.dispatcher.add_handler(CallbackQueryHandler(balloon))
 
     updater.start_polling()

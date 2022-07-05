@@ -9,15 +9,8 @@ FAQ_SEAC = "FAQ_SEAC"
 FAQ_COEX = "FAQ_COEX"
 start_texto = "Para prosseguir, selecione uma opção disponível que poderá lhe ajudar no seu atendimento 👇"
 
-txt_avaliacao = """Obrigado pela avaliação. 
-    \nContinuaremos a desenvolver novas atualizações para prestar - lhe sempre um bom atendimento.
-    \nSinta- se livre para deixar sua sugestão de atendimento  que não encontrou ou que precise de melhorias (/sugerir).
-    \nSe preferir, entre em contato com os responsáveis do projeto: @marmundo @Michael_Moreira"""
-
-txt_seac = "A secretaria Acadêmica | SEAC é o setor responsável pelo controle, verificação, registro e arquivamento da "
-txt_seac +="documentação da vida acadêmica do aluno, desde seu ingresso na Instituição, até a conclusão e/ou expedição do diploma.\n"
-txt_seac +="\nA missão da Secretaria Acadêmica é realizar com presteza e eficácia todos os procedimentos que envolvem o controle e o "
-txt_seac +="registro acadêmico, assim como orientar os alunos para os mesmos."
+FAQSEAC1 = "faq_seac1"
+txt_seac = """A secretaria Acadêmica | SEAC é o setor responsável pelo controle, verificação, registro e arquivamento da documentação da vida acadêmica do aluno, desde seu ingresso na Instituição, até a conclusão e/ou expedição do diploma.\n\nA missão da Secretaria Acadêmica é realizar com presteza e eficácia todos os procedimentos que envolvem o controle e o registro acadêmico, assim como orientar os alunos para os mesmos."""
 
 seac_contato = """\n
 Responsáveis:
@@ -53,9 +46,9 @@ FAQ = """
 \nOlá, caro(a) requerente 🤗 há alguma dúvida para esclarecer ❓ Aqui segue algumas das perguntas frequentes do setor selecionado para que você fique bem informado das principais questões tratadas por este setor.\n
 veja e selecione aquela que melhor atende sua expectativa. Espero que isso lhe ajude em sua busca.
 Caso não encontre o que procura, minhas recomendações são:
-⚠ 1 - Entre em contato com o setor 🏢
-⚠ 2 - Entre em contato com o gerente deste sistema para sugerir alguma implementação 💬
-⚠ 3 - Busque atendimento presencial com o setor nos horários de funcionamento ⏱ 
+1 - Entre em contato com o setor 🏢
+2 - Entre em contato com o gerente 👤 deste sistema para sugerir 💬 alguma implementação.
+3 - Busque atendimento presencial com o setor 🏢 nos horários de funcionamento ⏱ 
 """
 
 txt_comum = """Link SUAP: https://suap.ifrn.edu.br/accounts/login/?next=/
@@ -87,21 +80,21 @@ Para menores de 18 anos o requerimento deverá ser assinado pelo responsável ju
 txt_faq_seac3 = f"""Como solicitar o aproveitamento de estudos❓\n
 A solicitação deverá ser realizada através de chamado no SUAP, anexando o requerimento juntamente com os documentos comprobatórios.\n
 O requerimento para aproveitamento de estudos deverá ser acompanhado dos seguintes documentos:\n
-⚠ I.	Histórico acadêmico;
-⚠ II.	Programas de disciplinas cursadas, objeto da solicitação; e
-⚠ III.	Documento que comprove a autorização de funcionamento ou o reconhecimento do curso de origem.
+I.	Histórico acadêmico;
+II.	Programas de disciplinas cursadas, objeto da solicitação; e
+III.	Documento que comprove a autorização de funcionamento ou o reconhecimento do curso de origem.
 
 Art. 269. Poderão ser objeto de aproveitamento de estudos as disciplinas:\n
-⚠ a)  cujos conteúdos e cargas horárias coincidirem em, no mínimo, 70% (setenta por cento) com os programas das disciplinas do respectivo curso oferecido pelo IFRN;
-⚠ b)  cursadas com aprovação em outros cursos do mesmo nível de ensino ou outros cursos de nível posterior, independentemente da nota final obtida, excetuando-se os cursos técnicos de nível médio nos quais somente poderá ser concedido o aproveitamento de disciplinas cursadas em outro curso técnico de nível médio;
-⚠ c)  cursadas antes do ingresso do estudante no IFRN;
-⚠ d)  cursada num prazo máximo de 5 (cinco) anos, decorridos entre o final do período em que a disciplina foi cursada e a data de requerimento do aproveitamento de estudos; e
-⚠ e)  cujas disciplinas pré-requisitos, quando houver, tiverem sido integralizadas.
+a)  cujos conteúdos e cargas horárias coincidirem em, no mínimo, 70% (setenta por cento) com os programas das disciplinas do respectivo curso oferecido pelo IFRN;
+b)  cursadas com aprovação em outros cursos do mesmo nível de ensino ou outros cursos de nível posterior, independentemente da nota final obtida, excetuando-se os cursos técnicos de nível médio nos quais somente poderá ser concedido o aproveitamento de disciplinas cursadas em outro curso técnico de nível médio;
+c)  cursadas antes do ingresso do estudante no IFRN;
+d)  cursada num prazo máximo de 5 (cinco) anos, decorridos entre o final do período em que a disciplina foi cursada e a data de requerimento do aproveitamento de estudos; e
+e)  cujas disciplinas pré-requisitos, quando houver, tiverem sido integralizadas.
 
-⚠ § 1º. A equivalência de estudos poderá ser contabilizada a partir de estudos realizados em uma disciplina ou em duas ou mais disciplinas que se complementam no sentido de integralizar uma disciplina do curso.
-⚠ § 2º. A análise de equivalência entre matrizes curriculares será realizada pelo Coordenador de Curso, que encaminhará o processo para análise de equivalência entre programas de disciplinas.
-⚠ § 3º. A análise de equivalência entre programas de disciplinas será realizada por pelo menos um docente especialista da disciplina objeto do aproveitamento, que emitirá parecer conclusivo sobre o pleito.
-⚠ § 4º. A avaliação da correspondência de estudos deverá recair sobre os conteúdos que integram os programas das disciplinas apresentadas e não sobre a denominação das disciplinas cursadas. § 5º. Será registrada no histórico acadêmico do estudante a média aritmética ponderada da(s) disciplina(s) aproveitadas, tendo como peso a carga horária da(s) disciplina(s) correlata(s).
+§ 1º. A equivalência de estudos poderá ser contabilizada a partir de estudos realizados em uma disciplina ou em duas ou mais disciplinas que se complementam no sentido de integralizar uma disciplina do curso.
+§ 2º. A análise de equivalência entre matrizes curriculares será realizada pelo Coordenador de Curso, que encaminhará o processo para análise de equivalência entre programas de disciplinas.
+§ 3º. A análise de equivalência entre programas de disciplinas será realizada por pelo menos um docente especialista da disciplina objeto do aproveitamento, que emitirá parecer conclusivo sobre o pleito.
+§ 4º. A avaliação da correspondência de estudos deverá recair sobre os conteúdos que integram os programas das disciplinas apresentadas e não sobre a denominação das disciplinas cursadas. § 5º. Será registrada no histórico acadêmico do estudante a média aritmética ponderada da(s) disciplina(s) aproveitadas, tendo como peso a carga horária da(s) disciplina(s) correlata(s).
 
 Art. 270. É vedado o aproveitamento de estudos de disciplinas em que o requerente haja sido reprovado no IFRN.  Organização Didática do IFRN. IFRN, 2012.
 Art. 271. Com vistas ao aproveitamento de estudos, os(as) estudantes de nacionalidade estrangeira ou brasileiros(as) com estudos realizados no exterior deverão apresentar documentação legalizada por via diplomática e com equivalência concedida pelo respectivo sistema de ensino.\n
@@ -112,10 +105,10 @@ txt_faq_seac4 = """Como requerer a certificação de conhecimentos❓\n
 A inscrição para a certificação de conhecimentos deverá ser efetuada através de chamado no SUAP, anexando o requerimento com a enumeração das disciplinas requeridas.\n
 Art. 272. O processo de certificação de conhecimentos consistirá em uma avaliação teórica ou teórico-prática, conforme as características da disciplina, com calendário de provas a ser divulgado pela Diretoria Acadêmica ofertante.\n
 Art. 273. A certificação de conhecimentos será realizada por uma banca examinadora designada pelo respectivo Diretor Acadêmico, ouvido o Coordenador de Curso, e constituída por um membro da equipe técnico-pedagógica e, no mínimo, dois docentes especialistas da(s) disciplina(s) em que o estudante será avaliado, cabendo a essa comissão emitir parecer conclusivo sobre o pleito.\n
-⚠ Parágrafo único. Será dispensado de cursar uma disciplina o estudante que alcançar aproveitamento igual ou superior a 60 (sessenta) nessa avaliação, sendo registrado no seu histórico acadêmico o resultado obtido no processo.\n
+Parágrafo único. Será dispensado de cursar uma disciplina o estudante que alcançar aproveitamento igual ou superior a 60 (sessenta) nessa avaliação, sendo registrado no seu histórico acadêmico o resultado obtido no processo.\n
 Art. 274. A inscrição para a certificação de conhecimentos deverá ser efetuada através de requerimento ao respectivo Diretor Acadêmico, com a enumeração das disciplinas requeridas.\n 
-⚠ § 1º. O número máximo de requerimentos para realização de certificação de conhecimentos não deverá exceder 4 (quatro) avaliações por estudante em cada período letivo.\n
-⚠ § 2º. Para cada disciplina do curso, será permitido ao estudante requerer a certificação de conhecimentos uma única vez.\n 
+§ 1º. O número máximo de requerimentos para realização de certificação de conhecimentos não deverá exceder 4 (quatro) avaliações por estudante em cada período letivo.\n
+§ 2º. Para cada disciplina do curso, será permitido ao estudante requerer a certificação de conhecimentos uma única vez.\n 
 Art. 275. Em caso de ausência a qualquer avaliação de certificação de conhecimentos, esta ficará automaticamente cancelada, não cabendo recurso.\n 
 Art. 276. É vedada a certificação de conhecimentos de disciplinas em que o requerente tenha sido reprovado no IFRN.\n 
 Art. 277. Para os cursos técnicos na forma integrada, é vedada a certificação de conhecimentos de disciplinas referentes aos núcleos fundamental e estruturante.\n 
@@ -128,9 +121,9 @@ O prazo de atendimento é de até 30 dias.\n
 """
 
 txt_faq_seac6 = f"""Como solicitar transferências❓\n
-⚠ I.	TRANSFERÊNCIA COMPULSÓRIA:\n
+I.	TRANSFERÊNCIA COMPULSÓRIA:\n
 Art. 201. Nos casos de transferência de servidor público civil ou militar, removido ex-oficio e de seus dependentes – quando for caracterizada a interrupção de estudos, a matrícula será concedida independentemente de vaga e de prazos estabelecidos, caracterizando a TRANSFERÊNCIA COMPULSÓRIA.\n
-⚠ II.	TRANSFERÊNCIA POR DEFERIMENTO:\n
+II.	TRANSFERÊNCIA POR DEFERIMENTO:\n
 Art. 202. Em caso de mudança de domicílio de estudantes trabalhadores ou dos seus responsáveis, para estudante regularmente matriculado no IFRN, poderá ser concedida a TRANSFERÊNCIA POR DEFERIMENTO, após análise de processo pela Pró-reitora de Ensino, formulado pelo estudante, constando parecer da pedagogia e do serviço social do campus ao qual o estudante está vinculado, comprovando a impossibilidade da permanência.\n
 {txt_comum}
 """
@@ -138,7 +131,7 @@ Art. 202. Em caso de mudança de domicílio de estudantes trabalhadores ou dos s
 txt_faq_seac7 = f"""Como fazer a renovação de matrícula❓\n
 A renovação de matrícula para cada período letivo deverá ser efetuada, obrigatoriamente, em data prevista no calendário acadêmico do campus de vinculação do estudante, mediante preenchimento de formulário próprio no SUAP.
 Necessitarão fazer a renovação de matrícula todos os estudantes regularmente matriculados, inclusive aqueles com matrícula trancada e em realização de prática profissional.\n
-Art. 209. O estudante com direito à renovação de matrícula que deixar de efetuá-la dentro dos prazos previstos deverá justificar o fato à respectiva Diretoria Acadêmica em até 20 (vinte) dias corridos. Após a data final estabelecida, será considerado desistente e terá sua matrícula cancelada por evasão.
+⚠ Art. 209. O estudante com direito à renovação de matrícula que deixar de efetuá-la dentro dos prazos previstos deverá justificar o fato à respectiva Diretoria Acadêmica em até 20 (vinte) dias corridos. Após a data final estabelecida, será considerado desistente e terá sua matrícula cancelada por evasão.
 ⚠ Parágrafo único. O processo de evasão deverá ser precedido de apuração, em que será dado ao estudante o direito à ampla defesa.\n 
 {txt_comum}
 """
@@ -148,13 +141,13 @@ Art. 210. Para os estudantes dos cursos com sistema de crédito, deverá ser rea
 Parágrafo Único. Entende-se por Inscrição em Disciplinas a seleção formal das disciplinas a serem cursadas no período letivo subsequente.\n
 Art. 211. No semestre de ingresso no curso, o estudante deverá cursar todas as disciplinas constantes na matriz curricular, compatíveis com o seu período de referência.\n
 Art. 212. Para a matrícula por disciplinas, dentre as que estão sendo ofertadas no período letivo:
-⚠ I.	o estudante deverá cursar, em cada período letivo, no mínimo, 3 (três) disciplinas e, no máximo, o número de disciplinas do período de referência mais 2 (duas) disciplinas; e 
-⚠ II.	o estudante poderá cursar disciplinas de semestres distintos da matriz curricular, desde que sejam até 2 (dois) períodos subsequentes ao período de referência.
+I.	o estudante deverá cursar, em cada período letivo, no mínimo, 3 (três) disciplinas e, no máximo, o número de disciplinas do período de referência mais 2 (duas) disciplinas; e 
+II.	o estudante poderá cursar disciplinas de semestres distintos da matriz curricular, desde que sejam até 2 (dois) períodos subsequentes ao período de referência.
 Parágrafo único. Caso o estudante só esteja apto a cursar menos de três disciplinas, deverá ser realizada a matrícula em todas as disciplinas possíveis.\n 
 Art. 213. O estudante que não efetuar a inscrição em disciplinas será automaticamente matriculado nas disciplinas do período compatível com seu período de referência, não cabendo recurso.\n
 Art. 214. A seleção para disciplinas em que haja mais candidatos que vagas será realizada considerando a seguinte ordem: 
-⚠ I.	maior compatibilidade com o período da disciplina, caracterizado pelo período de referência do estudante e da disciplina; e 
-⚠ II. classificação decrescente do Índice de Rendimento Acadêmico (IRA).
+I.	maior compatibilidade com o período da disciplina, caracterizado pelo período de referência do estudante e da disciplina; e 
+II. classificação decrescente do Índice de Rendimento Acadêmico (IRA).
 """
 
 txt_faq_seac9 = f"""Como solicitar trancamento de matrícula❓\n
@@ -182,13 +175,13 @@ Entende-se por trancamento de matrícula voluntário aquele em que o estudante f
 
 txt_faq_seac10 = """Como solicitar o Cancelamento de Disciplina ❓\n
 Art. 222. Será permitido o cancelamento de disciplinas para os estudantes dos cursos com regime de crédito, respeitado o prazo estabelecido no calendário acadêmico do campus de vinculação do estudante. 
-⚠ Parágrafo Único. Não será permitido o cancelamento de disciplinas para os cursos com regime seriado.\n
+Parágrafo Único. Não será permitido o cancelamento de disciplinas para os cursos com regime seriado.\n
 Art. 223. O cancelamento de disciplinas não será concedido para disciplinas constantes do primeiro período na matriz curricular do curso.\n 
 Art. 224. O cancelamento de disciplina implica, obrigatoriamente, o cancelamento do projeto integrador vinculado.\n
 Art. 225. Cada disciplina poderá ser cancelada apenas uma vez. Para requerer o cancelamento de matrícula em disciplina, o estudante deverá realizar as seguintes etapas:
-⚠ 1) Fazer login por meio do endereço suap.ifrn.edu.br;
-⚠ 2) No menu clique em "ENSINO", e em "Dados do Aluno";
-⚠ 3) Clique na aba "Requerimentos". Depois clique no botão "Adicionar Requerimento";
-⚠ 4) Escolha "Cancelamento de Disciplina" no campo tipo do requerimento. Insira uma justificativa no campo "Descrição/Justificativa". Clique no botão "Salvar"; 
-⚠ 5) Caso tenha menos de 18 anos, anexe a imagem do RG do responsável legal. \nPronto! O requerimento foi criado. Assim que os servidores da secretaria Acadêmica abrirem o requerimento, a solicitação será avaliada e posteriormente será realizado o cancelamento da disciplina.
+1) Fazer login por meio do endereço suap.ifrn.edu.br;
+2) No menu clique em "ENSINO", e em "Dados do Aluno";
+3) Clique na aba "Requerimentos". Depois clique no botão "Adicionar Requerimento";
+4) Escolha "Cancelamento de Disciplina" no campo tipo do requerimento. Insira uma justificativa no campo "Descrição/Justificativa". Clique no botão "Salvar"; 
+5) Caso tenha menos de 18 anos, anexe a imagem do RG do responsável legal. \nPronto! O requerimento foi criado. Assim que os servidores da secretaria Acadêmica abrirem o requerimento, a solicitação será avaliada e posteriormente será realizado o cancelamento da disciplina.
 """
