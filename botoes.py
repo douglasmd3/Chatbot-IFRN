@@ -7,7 +7,6 @@ import texto
 
 def regressar_setor_line(historico):
     voltar = historico.pop()
-    print("voltar>>>", voltar)
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("🏠", callback_data=texto.HOME), InlineKeyboardButton(
             "↩", callback_data=voltar)]

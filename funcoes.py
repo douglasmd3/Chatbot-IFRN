@@ -32,7 +32,6 @@ def sendResposta(handler, text, reply_markup):
 
 
 def responsehistorico(opcao):
-    print("opcao>>", opcao)
     historico.append(opcao)
     return botoes.regressar_setor_line(historico)
 
@@ -96,9 +95,6 @@ def balloon(update: Update, context: CallbackContext) -> None:
     handler.answer()
 
     argumentos = getResponseTextReplyMarkup(query.data, update)
-    print(query.data)
-    if query.data == texto.CONTATO_COEX:
-        print(argumentos[0], argumentos[1])
     sendResposta(handler, argumentos[0], argumentos[1])
 
 
