@@ -1,5 +1,12 @@
+import sys
+import os
+
+#usando estas duas linhas para poder importar Cliente da pasta acima
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
 import Cliente
-import botoes
+import botoesTelegram
 import texto
 # import gtts
 import logging
@@ -25,7 +32,7 @@ class ClienteTelegram(Cliente.Cliente):
         context.bot.send_message(
             chat_id=update.effective_message.chat_id,
             text=texto.start_texto,
-            reply_markup=botoes.start_lines()
+            reply_markup=botoesTelegram.start_lines()
         )
 
     def sendResposta(self,text,reply_markup):
@@ -39,22 +46,22 @@ class ClienteTelegram(Cliente.Cliente):
 
     def responsehistorico(self,opcao):
         historico.append(opcao)
-        return botoes.regressar_setor_line(historico)
+        return botoesTelegram.regressar_setor_line(historico)
 
     def getReplyMarkup(self,option):
         replyMarkup = {
-            texto.HOME: botoes.start_lines(),
-            texto.ESTRUTURA_ADMINISTRATIVA: botoes.setor_line(),
-            texto.SEAC_SGA: botoes.menu_seac(),
-            texto.VOLTAR_FAQ_SEAC: botoes.faq_seac(),
-            texto.CONTATO_SEAC: botoes.contato_seac(),
+            texto.HOME: botoesTelegram.start_lines(),
+            texto.ESTRUTURA_ADMINISTRATIVA: botoesTelegram.setor_line(),
+            texto.SEAC_SGA: botoesTelegram.menu_seac(),
+            texto.VOLTAR_FAQ_SEAC: botoesTelegram.faq_seac(),
+            texto.CONTATO_SEAC: botoesTelegram.contato_seac(),
             # texto.CONTATO_SEAC: responsehistorico(texto.SEAC_SGA),
-            texto.COEX_SGA: botoes.menu_coex(),
-            texto.CONTATO_COEX: botoes.contato_coex(),
-            texto.FAQ_SEAC: botoes.faq_seac(),
+            texto.COEX_SGA: botoesTelegram.menu_coex(),
+            texto.CONTATO_COEX: botoesTelegram.contato_coex(),
+            texto.FAQ_SEAC: botoesTelegram.faq_seac(),
             # texto.FAQ_SEAC: responsehistorico(texto.SEAC_SGA),
             # **dict.fromkeys([texto.FAQSEAC1, "faq_seac2", "faq_seac3", "faq_seac4", "faq_seac5", "faq_seac6", "faq_seac7", "faq_seac8", "faq_seac9", "faq_seac10"], responsehistorico(texto.VOLTAR_FAQ_SEAC)),
-            texto.FAQSEAC1: botoes.regressar_faq_seac(), "faq_seac2": botoes.regressar_faq_seac(), "faq_seac3": botoes.regressar_faq_seac(), "faq_seac4": botoes.regressar_faq_seac(), "faq_seac5": botoes.regressar_faq_seac(), "faq_seac6": botoes.regressar_faq_seac(), "faq_seac7": botoes.regressar_faq_seac(), "faq_seac8": botoes.regressar_faq_seac(), "faq_seac9": botoes.regressar_faq_seac(), "faq_seac10": botoes.regressar_faq_seac(),
+            texto.FAQSEAC1: botoesTelegram.regressar_faq_seac(), "faq_seac2": botoesTelegram.regressar_faq_seac(), "faq_seac3": botoesTelegram.regressar_faq_seac(), "faq_seac4": botoesTelegram.regressar_faq_seac(), "faq_seac5": botoesTelegram.regressar_faq_seac(), "faq_seac6": botoesTelegram.regressar_faq_seac(), "faq_seac7": botoesTelegram.regressar_faq_seac(), "faq_seac8": botoesTelegram.regressar_faq_seac(), "faq_seac9": botoesTelegram.regressar_faq_seac(), "faq_seac10": botoesTelegram.regressar_faq_seac(),
             texto.FAQ_COEX: self.responsehistorico(texto.COEX_SGA)
         }
         
