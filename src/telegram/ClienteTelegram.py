@@ -8,9 +8,10 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 import Cliente
 import botoesTelegram
 import texto
+import consts
 # import gtts
 import logging
-from telegram import ReplyMarkup, Update
+from telegram import Update
 from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler
 
 historico = []
@@ -26,7 +27,7 @@ class ClienteTelegram(Cliente.Cliente):
         historico.clear()
         context.bot.send_photo(
             chat_id=update.effective_message.chat_id,
-            photo=open('Imagens/Imagem-Inicial.jpg', 'rb'),
+            photo=open(consts.IMAGEPATH,"rb"),
             caption=f'Olá, {update.effective_user.full_name}! que ótimo ter você por aqui 😀'
         )
         context.bot.send_message(
@@ -38,12 +39,7 @@ class ClienteTelegram(Cliente.Cliente):
     def sendResposta(self,text,reply_markup):
         if text != "":
             self.handler.edit_message_text(text=text, reply_markup=reply_markup)
-    
-
-    
-        
-
-
+            
     def responsehistorico(self,opcao):
         historico.append(opcao)
         return botoesTelegram.regressar_setor_line(historico)
@@ -54,18 +50,20 @@ class ClienteTelegram(Cliente.Cliente):
             texto.ESTRUTURA_ADMINISTRATIVA: botoesTelegram.setor_line(),
             texto.SEAC_SGA: botoesTelegram.menu_seac(),
             texto.VOLTAR_FAQ_SEAC: botoesTelegram.faq_seac(),
-            texto.CONTATO_SEAC: botoesTelegram.contato_seac(),
-            # texto.CONTATO_SEAC: responsehistorico(texto.SEAC_SGA),
+            # texto.CONTATO_SEAC: botoesTelegram.contato_seac(),
+            texto.CONTATO_SEAC: self.responsehistorico(texto.SEAC_SGA),
             texto.COEX_SGA: botoesTelegram.menu_coex(),
-            texto.CONTATO_COEX: botoesTelegram.contato_coex(),
+            # texto.CONTATO_COEX: botoesTelegram.contato_coex(),
+            texto.CONTATO_COEX: self.responsehistorico(texto.COEX_SGA),
             texto.FAQ_SEAC: botoesTelegram.faq_seac(),
-            # texto.FAQ_SEAC: responsehistorico(texto.SEAC_SGA),
-            # **dict.fromkeys([texto.FAQSEAC1, "faq_seac2", "faq_seac3", "faq_seac4", "faq_seac5", "faq_seac6", "faq_seac7", "faq_seac8", "faq_seac9", "faq_seac10"], responsehistorico(texto.VOLTAR_FAQ_SEAC)),
-            texto.FAQSEAC1: botoesTelegram.regressar_faq_seac(), "faq_seac2": botoesTelegram.regressar_faq_seac(), "faq_seac3": botoesTelegram.regressar_faq_seac(), "faq_seac4": botoesTelegram.regressar_faq_seac(), "faq_seac5": botoesTelegram.regressar_faq_seac(), "faq_seac6": botoesTelegram.regressar_faq_seac(), "faq_seac7": botoesTelegram.regressar_faq_seac(), "faq_seac8": botoesTelegram.regressar_faq_seac(), "faq_seac9": botoesTelegram.regressar_faq_seac(), "faq_seac10": botoesTelegram.regressar_faq_seac(),
+            # texto.FAQ_SEAC: self.responsehistorico(texto.SEAC_SGA),
+            **dict.fromkeys([texto.FAQSEAC1, "faq_seac2", "faq_seac3", "faq_seac4", "faq_seac5", "faq_seac6", "faq_seac7", "faq_seac8", "faq_seac9", "faq_seac10"], self.responsehistorico(texto.VOLTAR_FAQ_SEAC)),
+            
+            # texto.FAQSEAC1: botoesTelegram.regressar_faq_seac(), "faq_seac2": botoesTelegram.regressar_faq_seac(), "faq_seac3": botoesTelegram.regressar_faq_seac(), "faq_seac4": botoesTelegram.regressar_faq_seac(), "faq_seac5": botoesTelegram.regressar_faq_seac(), "faq_seac6": botoesTelegram.regressar_faq_seac(), "faq_seac7": botoesTelegram.regressar_faq_seac(), "faq_seac8": botoesTelegram.regressar_faq_seac(), "faq_seac9": botoesTelegram.regressar_faq_seac(), "faq_seac10": botoesTelegram.regressar_faq_seac(),
+
+            # texto.FAQSEAC1: self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac2": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac3": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac4": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac5": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac6": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac7": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac8": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac9": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac10": self.responsehistorico(texto.VOLTAR_FAQ_SEAC),
             texto.FAQ_COEX: self.responsehistorico(texto.COEX_SGA)
         }
-        
-
         return replyMarkup.get(option)
 
 
@@ -106,8 +104,6 @@ class ClienteTelegram(Cliente.Cliente):
 
         argumentos = self.getResponseTextReplyMarkup(query.data, update)
         self.sendResposta(argumentos[0], argumentos[1])
-
-
     # registro dos botões utilizados por usuário.
         print(f'{update.effective_user.full_name} utilizou {query.data}')
 
