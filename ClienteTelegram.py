@@ -8,7 +8,9 @@ from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, Call
 
 historico = []
 
+# class ClienteTelegram(Cliente):
 class ClienteTelegram():
+
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
     logger = logging.getLogger(__name__)
@@ -27,16 +29,18 @@ class ClienteTelegram():
             reply_markup=botoes.start_lines()
         )
 
-
-    def sendResposta(self,handler, text, reply_markup):
+    def sendResposta(self,text):
         if text != "":
-            handler.edit_message_text(text=text, reply_markup=reply_markup)
+            self.sendRespostaTelegram(text[0],text[1])
+    
+
+    def sendRespostaTelegram(self, text, reply_markup):
+        self.handler.edit_message_text(text=text, reply_markup=reply_markup)
 
 
     def responsehistorico(self,opcao):
         historico.append(opcao)
         return botoes.regressar_setor_line(historico)
-
 
     def getReplyMarkup(self,option):
         replyMarkup = {
@@ -93,11 +97,11 @@ class ClienteTelegram():
     def balloon(self,update: Update, context: CallbackContext) -> None:
 
         query = update.callback_query
-        handler = query
-        handler.answer()
+        self.handler = query
+        self.handler.answer()
 
         argumentos = self.getResponseTextReplyMarkup(query.data, update)
-        self.sendResposta(handler, argumentos[0], argumentos[1])
+        self.sendResposta([argumentos[0], argumentos[1]])
 
 
     # registro dos botões utilizados por usuário.
@@ -135,5 +139,6 @@ class ClienteTelegram():
 
 
 if __name__ == '__main__':
+    # clienteTelegram= ClienteTelegram(Cliente)
     clienteTelegram= ClienteTelegram()
     clienteTelegram.iniciar()
