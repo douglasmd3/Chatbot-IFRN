@@ -1,7 +1,7 @@
 import logging
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackContext
-import funcoes
+import ClienteTelegram
 import texto
 
 
