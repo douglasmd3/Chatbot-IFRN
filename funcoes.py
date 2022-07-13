@@ -38,7 +38,7 @@ def balloon(update: Update, context: CallbackContext) -> None:
 
     global likes, dislikes
 
-    if "Avaliar" in query.data or "/sugeir" in query.data:
+    if "Avaliar" in query.data: #or "/sugeir" in query.data:
         handler.edit_message_text(
             text=f'{update.effective_user.full_name}, ' + 'qual a sua avaliação:?',
             reply_markup=botoes.buttons
@@ -47,7 +47,7 @@ def balloon(update: Update, context: CallbackContext) -> None:
         likes +=1
         handler.edit_message_text(
             text=f'{update.effective_user.full_name} ' + f'{texto.txt_avaliacao}',
-            reply_markup=botoes.regressar_setor_line()
+            #reply_markup=botoes.regressar_setor_line(historico)
         )
     if "bad" in query.data:
         dislikes +=1
