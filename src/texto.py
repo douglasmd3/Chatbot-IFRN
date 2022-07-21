@@ -9,15 +9,8 @@ FAQ_SEAC = "FAQ_SEAC"
 FAQ_COEX = "FAQ_COEX"
 start_texto = "Para prosseguir, selecione uma opção disponível que poderá lhe ajudar no seu atendimento 👇"
 
-txt_avaliacao = """Obrigado pela avaliação. 
-    \nContinuaremos a desenvolver novas atualizações para prestar - lhe sempre um bom atendimento.
-    \nSinta- se livre para deixar sua sugestão de atendimento  que não encontrou ou que precise de melhorias (/sugerir).
-    \nSe preferir, entre em contato com os responsáveis do projeto: @marmundo @Michael_Moreira"""
-
-txt_seac = "A secretaria Acadêmica | SEAC é o setor responsável pelo controle, verificação, registro e arquivamento da "
-txt_seac +="documentação da vida acadêmica do aluno, desde seu ingresso na Instituição, até a conclusão e/ou expedição do diploma.\n"
-txt_seac +="\nA missão da Secretaria Acadêmica é realizar com presteza e eficácia todos os procedimentos que envolvem o controle e o "
-txt_seac +="registro acadêmico, assim como orientar os alunos para os mesmos."
+FAQSEAC1 = "faq_seac1"
+txt_seac = """A secretaria Acadêmica | SEAC é o setor responsável pelo controle, verificação, registro e arquivamento da documentação da vida acadêmica do aluno, desde seu ingresso na Instituição, até a conclusão e/ou expedição do diploma.\n\nA missão da Secretaria Acadêmica é realizar com presteza e eficácia todos os procedimentos que envolvem o controle e o registro acadêmico, assim como orientar os alunos para os mesmos."""
 
 seac_contato = """\n
 Responsáveis:
