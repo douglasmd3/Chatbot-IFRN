@@ -14,16 +14,42 @@ from telegram import ReplyMarkup, Update
 from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler
 
 historico = []
-
+numeroUsuariosBotFileName="numeroUsuariosBot.txt"
+numeroDeUsuarios=0
 class ClienteTelegram(Cliente.Cliente):
 
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
     logger = logging.getLogger(__name__)
 
+    #Salva métricas com o numero de usuarios que já usou o bot. Essa funcao é chamada quando o usuario manda um /start
+    def salvarMetricaNumeroDeUsuarios(self,context):
+        try:
+            numeroDeUsuariosFile=open(numeroUsuariosBotFileName,'r')
+        except FileNotFoundError:
+            file=open(numeroUsuariosBotFileName,'x')
+            numeroDeUsuariosFile=open(numeroUsuariosBotFileName,'r')
+
+        numeroDeUsuarios=numeroDeUsuariosFile.read()
+        numeroDeUsuariosFile.close()
+        if(numeroDeUsuarios==''):
+            numeroDeUsuarios=0
+        else:
+            numeroDeUsuarios=int(numeroDeUsuarios)
+
+        context.bot.send_message(
+            chat_id=-1001565692647, text=f"{numeroDeUsuarios+1}"  # -1001795732349
+        )
+
+        arquivo = open(numeroUsuariosBotFileName, "w")
+
+        usuariosDoBot = str(numeroDeUsuarios+1)
+        arquivo.write(usuariosDoBot)
+        arquivo.close()
 
     def start(self, update: Update, context: CallbackContext) -> None:
         historico.clear()
+        self.salvarMetricaNumeroDeUsuarios(context)
         context.bot.send_photo(
             chat_id=update.effective_message.chat_id,
             photo=open('Imagens/Imagem-Inicial.jpg', 'rb'),
