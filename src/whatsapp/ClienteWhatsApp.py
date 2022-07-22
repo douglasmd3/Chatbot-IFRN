@@ -1,6 +1,6 @@
 from flask import Flask, request, Response
 import requests
-from bot import sendMessage
+# from bot import sendMessage
 from twilio.twiml.messaging_response import MessagingResponse
 
 app = Flask(__name__)
