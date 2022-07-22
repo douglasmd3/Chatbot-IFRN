@@ -1,1 +1,1 @@
-IMAGEPATH='Imagens/Imagem-Inicial.jpg'
+IMAGEPATH = 'Imagens/Imagem-Inicial.jpg'
