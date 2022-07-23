@@ -41,7 +41,7 @@ buttons = InlineKeyboardMarkup(buttons)
 def start_lines():
     return InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("🔍 SETORES", callback_data=texto.ESTRUTURA_ADMINISTRATIVA),  # botao_feed
+            [InlineKeyboardButton(""🏢 SETORES", callback_data=texto.ESTRUTURA_ADMINISTRATIVA),  # botao_feed
              InlineKeyboardButton("📊 AVALIAR", callback_data="Avaliar"), InlineKeyboardButton(
                  "💬 SUGERIR", callback_data="Sugerir")
              ],
