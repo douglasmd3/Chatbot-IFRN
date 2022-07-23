@@ -1,7 +1,6 @@
-
-
-from telegram.operacoes import somar
+from bot.telegram.ClienteTelegram import ClienteTelegram
 
 
 if __name__ == '__main__':
-    print(somar(2, 2))
+    clienteTelegram = ClienteTelegram()
+    clienteTelegram.iniciar()

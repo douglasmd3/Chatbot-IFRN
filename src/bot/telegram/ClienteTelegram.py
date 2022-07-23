@@ -1,10 +1,10 @@
 from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler, CommandHandler
 from telegram import Update
 import logging
-import consts
-import texto
-import botoesTelegram
-from Cliente import Cliente
+import bot.consts as consts
+import bot.texto as texto
+from . import botoesTelegram
+from bot.Cliente import Cliente
 import sys
 import os
 
@@ -19,7 +19,7 @@ numeroUsuariosBotFileName = "numeroUsuariosBot.txt"
 numeroDeUsuarios = 0
 
 
-class ClienteTelegram(Cliente.Cliente):
+class ClienteTelegram(Cliente):
 
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -168,14 +168,11 @@ class ClienteTelegram(Cliente.Cliente):
         dispatcher.add_handler(
             CommandHandler("start", self.start)
         )
-        dispatcher.add_handler(
-            CommandHandler("sugerir", self.sugerir)
-        )
+        # dispatcher.add_handler(
+        #     CommandHandler("sugerir", self.sugerir)
+        # )
         updater.dispatcher.add_handler(
             CallbackQueryHandler(self.balloon)
-        )
-        updater.dispatcher.add_handler(
-            CallbackQueryHandler(self.sugerir)
         )
 
         updater.start_polling()

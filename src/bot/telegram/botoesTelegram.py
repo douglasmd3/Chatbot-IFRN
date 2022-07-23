@@ -1,7 +1,8 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-import texto
+import bot.texto as texto
 
 #botao_feed = InlineKeyboardButton("📊 Avaliar", callback_data="Avaliar"), InlineKeyboardButton("💬 Sugerir", callback_data="Sugerir")
+
 
 def regressar_setor_line(historico):
     voltar = historico.pop()
@@ -22,7 +23,8 @@ def regressar_setor_line(historico):
 #         "🏠", callback_data="HOME"), InlineKeyboardButton("↩", callback_data=texto.COEX_SGA)]])
 
 
-buttons = [[InlineKeyboardButton("👍", callback_data="good")],[InlineKeyboardButton("👎", callback_data="bad"),]]
+buttons = [[InlineKeyboardButton("👍", callback_data="good")], [
+    InlineKeyboardButton("👎", callback_data="bad"), ]]
 buttons = InlineKeyboardMarkup(buttons)
 
 
@@ -39,8 +41,9 @@ buttons = InlineKeyboardMarkup(buttons)
 def start_lines():
     return InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("🔍 SETORES", callback_data=texto.ESTRUTURA_ADMINISTRATIVA) , #botao_feed
-             InlineKeyboardButton("📊 AVALIAR", callback_data="Avaliar"), InlineKeyboardButton("💬 SUGERIR", callback_data="Sugerir")
+            [InlineKeyboardButton("🔍 SETORES", callback_data=texto.ESTRUTURA_ADMINISTRATIVA),  # botao_feed
+             InlineKeyboardButton("📊 AVALIAR", callback_data="Avaliar"), InlineKeyboardButton(
+                 "💬 SUGERIR", callback_data="Sugerir")
              ],
         ])
 
@@ -49,28 +52,29 @@ def setor_line():
     return InlineKeyboardMarkup(
         [
             [
-        InlineKeyboardButton("🏠", callback_data=texto.HOME),
-        InlineKeyboardButton("📊", callback_data="Avaliar"),
-        InlineKeyboardButton("💬", callback_data="Sugerir"),
-    ],
-        [InlineKeyboardButton(
-            "🏢 SECRETARIA ACADÊMICA | SEAC/SGA", callback_data=texto.SEAC_SGA)],
-        [InlineKeyboardButton(
-            "🏢 COORDENAÇÃO DE EXTENSÃO | COEX/SGA", callback_data=texto.COEX_SGA)],
-    ]
+                InlineKeyboardButton("🏠", callback_data=texto.HOME),
+                InlineKeyboardButton("📊", callback_data="Avaliar"),
+                InlineKeyboardButton("💬", callback_data="Sugerir"),
+            ],
+            [InlineKeyboardButton(
+                "🏢 SECRETARIA ACADÊMICA | SEAC/SGA", callback_data=texto.SEAC_SGA)],
+            [InlineKeyboardButton(
+                "🏢 COORDENAÇÃO DE EXTENSÃO | COEX/SGA", callback_data=texto.COEX_SGA)],
+        ]
     )
 
 
 def menu_seac():
 
     return InlineKeyboardMarkup([
-            [InlineKeyboardButton("🏠", callback_data=texto.HOME),
-             InlineKeyboardButton("↩", callback_data=texto.ESTRUTURA_ADMINISTRATIVA),
-             InlineKeyboardButton("📊", callback_data="Avaliar"),
-             InlineKeyboardButton("💬", callback_data="Sugerir"),],
-            [InlineKeyboardButton("📞 Contatos e Canais", callback_data=texto.CONTATO_SEAC),
-             InlineKeyboardButton("❓ Perguntas Frequentes", callback_data=texto.FAQ_SEAC)],
-        ])
+        [InlineKeyboardButton("🏠", callback_data=texto.HOME),
+         InlineKeyboardButton(
+            "↩", callback_data=texto.ESTRUTURA_ADMINISTRATIVA),
+         InlineKeyboardButton("📊", callback_data="Avaliar"),
+         InlineKeyboardButton("💬", callback_data="Sugerir"), ],
+        [InlineKeyboardButton("📞 Contatos e Canais", callback_data=texto.CONTATO_SEAC),
+         InlineKeyboardButton("❓ Perguntas Frequentes", callback_data=texto.FAQ_SEAC)],
+    ])
 
 
 def menu_coex():
