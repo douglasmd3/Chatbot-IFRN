@@ -1,54 +1,52 @@
-from telegram.ext import CallbackContext, Updater, MessageHandler, Filters, CallbackQueryHandler, CommandHandler
-from telegram import Update
 import logging
-import bot.consts as consts
-import bot.texto as texto
-from . import botoesTelegram
+from cgitb import handler
+
+from bot import consts, texto
 from bot.Cliente import Cliente
-import sys
-import os
 
-# usando estas duas linhas para poder importar Cliente da pasta acima
-# SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-# sys.path.append(os.path.dirname(SCRIPT_DIR))
+from telegram import Update
+from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler, Updater
 
-# import gtts
+from . import botoesTelegram
 
 historico = []
-numeroUsuariosBotFileName = "numeroUsuariosBot.txt"
-numeroDeUsuarios = 0
+NUMEROUSUARIOSBOTFILENAME = "numeroUsuariosBot.txt"
+NUMERODEUSUARIOS = 0
 
 
 class ClienteTelegram(Cliente):
-
+    handler = None
     logging.basicConfig(
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        level=logging.INFO,
+    )
     logger = logging.getLogger(__name__)
 
     # Salva métricas com o numero de usuarios que já usou o bot. Essa funcao é chamada quando o usuario manda um /start
     def salvarMetricaNumeroDeUsuarios(self, context):
         try:
-            numeroDeUsuariosFile = open(numeroUsuariosBotFileName, 'r')
+            numero_de_usuarios_file = open(NUMEROUSUARIOSBOTFILENAME, "r")
         except FileNotFoundError:
-            file = open(numeroUsuariosBotFileName, 'x')
-            numeroDeUsuariosFile = open(numeroUsuariosBotFileName, 'r')
+            open(NUMEROUSUARIOSBOTFILENAME, "x")
+            numero_de_usuarios_file = open(NUMEROUSUARIOSBOTFILENAME, "r")
 
-        numeroDeUsuarios = numeroDeUsuariosFile.read()
-        numeroDeUsuariosFile.close()
-        if(numeroDeUsuarios == ''):
-            numeroDeUsuarios = 0
+        numero_de_suarios = numero_de_usuarios_file.read()
+        numero_de_usuarios_file.close()
+        if numero_de_suarios == "":
+            numero_de_suarios = 0
         else:
-            numeroDeUsuarios = int(numeroDeUsuarios)
+            numero_de_suarios = int(numero_de_suarios)
 
         context.bot.send_message(
             # -1001795732349
-            chat_id=-1001565692647, text=f"{numeroDeUsuarios+1}"
+            chat_id=-1001565692647,
+            text=f"{numero_de_suarios+1}",
         )
 
-        arquivo = open(numeroUsuariosBotFileName, "w")
+        arquivo = open(NUMEROUSUARIOSBOTFILENAME, "w")
 
-        usuariosDoBot = str(numeroDeUsuarios+1)
-        arquivo.write(usuariosDoBot)
+        usuarios_do_bot = str(numero_de_suarios + 1)
+        arquivo.write(usuarios_do_bot)
         arquivo.close()
 
     def start(self, update: Update, context: CallbackContext) -> None:
@@ -57,18 +55,23 @@ class ClienteTelegram(Cliente):
         context.bot.send_photo(
             chat_id=update.effective_message.chat_id,
             photo=open(consts.IMAGEPATH, "rb"),
-            caption=f'Olá, {update.effective_user.full_name}! que ótimo ter você por aqui 😀'
+            caption=f"Olá, {update.effective_user.full_name}! que ótimo ter você por aqui 😀",
         )
         context.bot.send_message(
             chat_id=update.effective_message.chat_id,
             text=texto.start_texto,
-            reply_markup=botoesTelegram.start_lines()
+            reply_markup=botoesTelegram.start_lines(),
         )
 
     def sendResposta(self, text, reply_markup):
+        """
+        Envia resposta para o usuário.
+            Parameters:
+                text(string): Texto a ser enviado
+                reply_markup: Botões que pode ser enviado na mensagem
+        """
         if text != "":
-            self.handler.edit_message_text(
-                text=text, reply_markup=reply_markup)
+            self.handler.edit_message_text(text=text, reply_markup=reply_markup)
 
     def responsehistorico(self, opcao):
         historico.append(opcao)
@@ -87,19 +90,29 @@ class ClienteTelegram(Cliente):
             texto.CONTATO_COEX: self.responsehistorico(texto.COEX_SGA),
             texto.FAQ_SEAC: botoesTelegram.faq_seac(),
             # texto.FAQ_SEAC: self.responsehistorico(texto.SEAC_SGA),
-            **dict.fromkeys([texto.FAQSEAC1, "faq_seac2", "faq_seac3", "faq_seac4", "faq_seac5", "faq_seac6", "faq_seac7", "faq_seac8", "faq_seac9", "faq_seac10"], self.responsehistorico(texto.VOLTAR_FAQ_SEAC)),
-
-            # texto.FAQSEAC1: botoesTelegram.regressar_faq_seac(), "faq_seac2": botoesTelegram.regressar_faq_seac(), "faq_seac3": botoesTelegram.regressar_faq_seac(), "faq_seac4": botoesTelegram.regressar_faq_seac(), "faq_seac5": botoesTelegram.regressar_faq_seac(), "faq_seac6": botoesTelegram.regressar_faq_seac(), "faq_seac7": botoesTelegram.regressar_faq_seac(), "faq_seac8": botoesTelegram.regressar_faq_seac(), "faq_seac9": botoesTelegram.regressar_faq_seac(), "faq_seac10": botoesTelegram.regressar_faq_seac(),
-
-            # texto.FAQSEAC1: self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac2": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac3": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac4": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac5": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac6": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac7": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac8": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac9": self.responsehistorico(texto.VOLTAR_FAQ_SEAC), "faq_seac10": self.responsehistorico(texto.VOLTAR_FAQ_SEAC),
-            texto.FAQ_COEX: self.responsehistorico(texto.COEX_SGA)
+            **dict.fromkeys(
+                [
+                    texto.FAQSEAC1,
+                    "faq_seac2",
+                    "faq_seac3",
+                    "faq_seac4",
+                    "faq_seac5",
+                    "faq_seac6",
+                    "faq_seac7",
+                    "faq_seac8",
+                    "faq_seac9",
+                    "faq_seac10",
+                ],
+                self.responsehistorico(texto.VOLTAR_FAQ_SEAC),
+            ),
+            texto.FAQ_COEX: self.responsehistorico(texto.COEX_SGA),
         }
         return replyMarkup.get(option)
 
     def getResponseText(self, option, update):
         text = {
-            texto.HOME: f'Olá, {update.effective_user.full_name}! ' +
-            texto.start_texto,
+            texto.SUGERIR: texto.txt_sugestao,
+            texto.HOME: f"Olá, {update.effective_user.full_name}! " + texto.start_texto,
             texto.ESTRUTURA_ADMINISTRATIVA: "Escolha uma opção disponível para continuar 👇",
             texto.SEAC_SGA: texto.txt_seac,
             texto.VOLTAR_FAQ_SEAC: texto.txt_seac + texto.FAQ,
@@ -131,10 +144,14 @@ class ClienteTelegram(Cliente):
 
         argumentos = self.getResponseTextReplyMarkup(query.data, update)
         self.sendResposta(argumentos[0], argumentos[1])
-    # registro dos botões utilizados por usuário.
-        print(f'{update.effective_user.full_name} utilizou {query.data}')
+        # registro dos botões utilizados por usuário.
+        print(f"{update.effective_user.full_name} utilizou {query.data}")
 
-    # def sugerir(self) -> None:
+    def sugerir(self, update: Update, context: CallbackContext) -> None:
+        context.bot.send_message(
+            chat_id=update.effective_message.chat_id,
+            text=texto.txt_sugestao,
+        )
 
     def iniciar(self) -> None:
         token = "5241177916:AAHZUC5gimNEyosHBngN5-KELqBSYauthok"
@@ -158,27 +175,21 @@ class ClienteTelegram(Cliente):
         # except Exception as e:
         #    print(e)
 
-    # Iniciar comandos da função quando solicitadas
+        # Iniciar comandos da função quando solicitadas
         # dispatcher.add_handler(MessageHandler(Filters.all, self.start))
         # updater.dispatcher.add_handler(CallbackQueryHandler(self.balloon))
 
         # updater.start_polling()
         # updater.idle()
 
-        dispatcher.add_handler(
-            CommandHandler("start", self.start)
-        )
-        # dispatcher.add_handler(
-        #     CommandHandler("sugerir", self.sugerir)
-        # )
-        updater.dispatcher.add_handler(
-            CallbackQueryHandler(self.balloon)
-        )
+        dispatcher.add_handler(CommandHandler("start", self.start))
+        dispatcher.add_handler(CommandHandler("sugerir", self.sugerir))
+        dispatcher.add_handler(CallbackQueryHandler(self.balloon))
 
         updater.start_polling()
         updater.idle()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     clienteTelegram = ClienteTelegram()
     clienteTelegram.iniciar()
