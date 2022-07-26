@@ -188,3 +188,4 @@ Art. 225. Cada disciplina poderá ser cancelada apenas uma vez. Para requerer o 
 """
 
 txt_sugestao = """Faça a sua sugestão ao nosso bot"""
+txt_sugestao_agradecimento = "Obrigado pela sua sugestão"

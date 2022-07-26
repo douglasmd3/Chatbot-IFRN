@@ -1,11 +1,12 @@
+"""Cliente IFRN/SGA para Telegram"""
 import logging
-from cgitb import handler
 
 from bot import consts, texto
 from bot.Cliente import Cliente
 
 from telegram import Update
-from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler, Updater
+from telegram.ext import (CallbackContext, CallbackQueryHandler,
+                          CommandHandler, Filters, MessageHandler, Updater)
 
 from . import botoesTelegram
 
@@ -22,46 +23,48 @@ class ClienteTelegram(Cliente):
     )
     logger = logging.getLogger(__name__)
 
-    # Salva métricas com o numero de usuarios que já usou o bot. Essa funcao é chamada quando o usuario manda um /start
-    def salvarMetricaNumeroDeUsuarios(self, context):
+    def salvar_metrica_numero_de_usuarios(self, context):
+        """Salva métricas com o numero de usuarios que já usou o bot. Essa funcao é chamada quando o usuario manda um /start"""
         try:
-            numero_de_usuarios_file = open(NUMEROUSUARIOSBOTFILENAME, "r")
+            numero_de_usuarios_file = open(NUMEROUSUARIOSBOTFILENAME, "r", encoding="utf-8")
         except FileNotFoundError:
             open(NUMEROUSUARIOSBOTFILENAME, "x")
-            numero_de_usuarios_file = open(NUMEROUSUARIOSBOTFILENAME, "r")
+            numero_de_usuarios_file = open(NUMEROUSUARIOSBOTFILENAME, "r", encoding="utf-8")
 
-        numero_de_suarios = numero_de_usuarios_file.read()
+        numero_de_usuarios = numero_de_usuarios_file.read()
         numero_de_usuarios_file.close()
-        if numero_de_suarios == "":
-            numero_de_suarios = 0
+        if numero_de_usuarios == "":
+            numero_de_usuarios = 0
         else:
-            numero_de_suarios = int(numero_de_suarios)
+            numero_de_usuarios = int(numero_de_usuarios)
 
         context.bot.send_message(
             # -1001795732349
             chat_id=-1001565692647,
-            text=f"{numero_de_suarios+1}",
+            text=f"{numero_de_usuarios+1}",
         )
 
-        arquivo = open(NUMEROUSUARIOSBOTFILENAME, "w")
+        arquivo = open(NUMEROUSUARIOSBOTFILENAME, "w", encoding="utf-8")
 
-        usuarios_do_bot = str(numero_de_suarios + 1)
+        usuarios_do_bot = str(numero_de_usuarios + 1)
         arquivo.write(usuarios_do_bot)
         arquivo.close()
 
     def start(self, update: Update, context: CallbackContext) -> None:
         historico.clear()
-        self.salvarMetricaNumeroDeUsuarios(context)
-        context.bot.send_photo(
-            chat_id=update.effective_message.chat_id,
-            photo=open(consts.IMAGEPATH, "rb"),
-            caption=f"Olá, {update.effective_user.full_name}! que ótimo ter você por aqui 😀",
-        )
-        context.bot.send_message(
-            chat_id=update.effective_message.chat_id,
-            text=texto.start_texto,
-            reply_markup=botoesTelegram.start_lines(),
-        )
+        self.salvar_metrica_numero_de_usuarios(context)
+        if update.effective_user is not None:
+            if update.effective_message is not None:
+                context.bot.send_photo(
+                    chat_id=update.effective_message.chat_id,
+                    photo=open(consts.IMAGEPATH, "rb"),
+                    caption=f"Olá, {update.effective_user.full_name}! que ótimo ter você por aqui 😀",
+                )
+                context.bot.send_message(
+                    chat_id=update.effective_message.chat_id,
+                    text=texto.start_texto,
+                    reply_markup=botoesTelegram.start_lines(),
+                )
 
     def sendResposta(self, text, reply_markup):
         """
@@ -71,7 +74,8 @@ class ClienteTelegram(Cliente):
                 reply_markup: Botões que pode ser enviado na mensagem
         """
         if text != "":
-            self.handler.edit_message_text(text=text, reply_markup=reply_markup)
+            if self.handler is not None:
+                self.handler.edit_message_text(text=text, reply_markup=reply_markup)
 
     def responsehistorico(self, opcao):
         historico.append(opcao)
@@ -83,13 +87,10 @@ class ClienteTelegram(Cliente):
             texto.ESTRUTURA_ADMINISTRATIVA: botoesTelegram.setor_line(),
             texto.SEAC_SGA: botoesTelegram.menu_seac(),
             texto.VOLTAR_FAQ_SEAC: botoesTelegram.faq_seac(),
-            # texto.CONTATO_SEAC: botoesTelegram.contato_seac(),
             texto.CONTATO_SEAC: self.responsehistorico(texto.SEAC_SGA),
             texto.COEX_SGA: botoesTelegram.menu_coex(),
-            # texto.CONTATO_COEX: botoesTelegram.contato_coex(),
             texto.CONTATO_COEX: self.responsehistorico(texto.COEX_SGA),
             texto.FAQ_SEAC: botoesTelegram.faq_seac(),
-            # texto.FAQ_SEAC: self.responsehistorico(texto.SEAC_SGA),
             **dict.fromkeys(
                 [
                     texto.FAQSEAC1,
@@ -145,13 +146,27 @@ class ClienteTelegram(Cliente):
         argumentos = self.getResponseTextReplyMarkup(query.data, update)
         self.sendResposta(argumentos[0], argumentos[1])
         # registro dos botões utilizados por usuário.
-        print(f"{update.effective_user.full_name} utilizou {query.data}")
+        # print(f"{update.effective_user.full_name} utilizou {query.data}")
 
     def sugerir(self, update: Update, context: CallbackContext) -> None:
-        context.bot.send_message(
-            chat_id=update.effective_message.chat_id,
-            text=texto.txt_sugestao,
-        )
+        if update.effective_message is not None:
+            context.bot.send_message(
+                chat_id=update.effective_message.chat_id,
+                text=texto.txt_sugestao,
+            )
+
+    def salvar_sugestao(self, update: Update, context: CallbackContext) -> None:
+        if update.effective_message is not None:
+            if update.effective_user is not None:
+                sugestao = update.effective_message.text
+                sugestao_file = open("SUGESTAO_"+update.effective_user.full_name + ".txt", "w", encoding="utf-8")
+                sugestao_file.write(sugestao)
+                sugestao_file.close()
+                context.bot.send_message(
+                    chat_id=update.effective_message.chat_id,
+                    text=texto.txt_sugestao_agradecimento,
+                    reply_markup=botoesTelegram.start_lines(),
+                )
 
     def iniciar(self) -> None:
         token = "5241177916:AAHZUC5gimNEyosHBngN5-KELqBSYauthok"
@@ -183,9 +198,9 @@ class ClienteTelegram(Cliente):
         # updater.idle()
 
         dispatcher.add_handler(CommandHandler("start", self.start))
-        dispatcher.add_handler(CommandHandler("sugerir", self.sugerir))
+        # dispatcher.add_handler(CommandHandler("sugerir", self.sugerir))
         dispatcher.add_handler(CallbackQueryHandler(self.balloon))
-
+        dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, self.salvar_sugestao))
         updater.start_polling()
         updater.idle()
 
