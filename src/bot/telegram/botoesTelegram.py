@@ -79,7 +79,7 @@ def menu_seac():
                 InlineKeyboardButton("🏠", callback_data=texto.HOME),
                 InlineKeyboardButton("↩", callback_data=texto.ESTRUTURA_ADMINISTRATIVA),
                 InlineKeyboardButton("📊", callback_data="Avaliar"),
-                InlineKeyboardButton("💬", callback_data="Sugerir"),
+                InlineKeyboardButton("💬", callback_data=texto.SUGERIR),
             ],
             [
                 InlineKeyboardButton("📞 Contatos e Canais", callback_data=texto.CONTATO_SEAC),
