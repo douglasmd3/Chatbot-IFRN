@@ -8,6 +8,19 @@ buttons = [
         InlineKeyboardButton("🔴 Cancelar".upper(), callback_data="no")
     ]
 ]
+bsug = [[InlineKeyboardButton("sugerir", callback_data='sugerir')]]
+
+def start(update: Update, context: CallbackContext) -> None:
+    context.bot.send_message(chat_id=update.effective_message.chat_id, text="mensagem inicial mais botão sugerir.", reply_markup=InlineKeyboardMarkup(bsug))
+
+
+def balloon(update: Update, context: CallbackContext) -> None:
+    query = update.callback_query
+    handler = query
+    handler.answer()
+
+    if "sugerir" == query.data:
+        return sugerir(update,context)
 
 def sugerir(update: Update, context:CallbackContext):
     context.bot.send_message(chat_id=update.effective_message.chat_id, text="comente:")
@@ -45,8 +58,13 @@ def iniciar() -> None:
     updater = Updater(token, use_context =True)
     dispatcher = updater.dispatcher
 
+    dispatcher.add_handler(CommandHandler("start", start))
+    #dispatcher.add_handler((CallbackQueryHandler(balloon)))
+
     conv_handler = ConversationHandler(
-    entry_points=[CommandHandler("sugerir", sugerir)],
+    entry_points=[
+        CommandHandler("sugerir", sugerir),
+        CallbackQueryHandler(balloon)],
     states={
         comentar:[MessageHandler(Filters.text,comentar)],
         confimar: [CallbackQueryHandler(confimar)],
