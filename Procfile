@@ -1,2 +1,2 @@
-#web: python funcoes.py
-worker: python funcoes.py
+#web: python src/main.py
+worker: python src/main.py
