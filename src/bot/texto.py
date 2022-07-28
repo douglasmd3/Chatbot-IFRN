@@ -10,7 +10,17 @@ FAQ_COEX = "FAQ_COEX"
 SUGERIR = "SUGERIR"
 start_texto = "Para prosseguir, selecione uma opção disponível que poderá lhe ajudar no seu atendimento 👇"
 
+
 FAQSEAC1 = "faq_seac1"
+FAQSEAC2 = "faq_seac2"
+FAQSEAC3 = "faq_seac3"
+FAQSEAC4 = "faq_seac4"
+FAQSEAC5 = "faq_seac5"
+FAQSEAC6 = "faq_seac6"
+FAQSEAC7 = "faq_seac7"
+FAQSEAC8 = "faq_seac8"
+FAQSEAC9 = "faq_seac9"
+FAQSEAC_10 = "faq_seac_10"
 txt_seac = """A secretaria Acadêmica | SEAC é o setor responsável pelo controle, verificação, registro e arquivamento da documentação da vida acadêmica do aluno, desde seu ingresso na Instituição, até a conclusão e/ou expedição do diploma.\n\nA missão da Secretaria Acadêmica é realizar com presteza e eficácia todos os procedimentos que envolvem o controle e o registro acadêmico, assim como orientar os alunos para os mesmos."""
 
 seac_contato = """\n
@@ -174,7 +184,7 @@ Entende-se por trancamento de matrícula voluntário aquele em que o estudante f
 ⚠ {txt_comum}
 """
 
-txt_faq_seac10 = """Como solicitar o Cancelamento de Disciplina ❓\n
+txt_faq_seac_10 = """Como solicitar o Cancelamento de Disciplina ❓\n
 Art. 222. Será permitido o cancelamento de disciplinas para os estudantes dos cursos com regime de crédito, respeitado o prazo estabelecido no calendário acadêmico do campus de vinculação do estudante. 
 ⚠ Parágrafo Único. Não será permitido o cancelamento de disciplinas para os cursos com regime seriado.\n
 Art. 223. O cancelamento de disciplinas não será concedido para disciplinas constantes do primeiro período na matriz curricular do curso.\n 
@@ -189,3 +199,4 @@ Art. 225. Cada disciplina poderá ser cancelada apenas uma vez. Para requerer o 
 
 txt_sugestao = """Faça a sua sugestão ao nosso bot"""
 txt_sugestao_agradecimento = "Obrigado pela sua sugestão"
+txt_confirmar_sugestao="""Você deseja confirmar a sua sugestão"""
