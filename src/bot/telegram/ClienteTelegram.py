@@ -1,6 +1,6 @@
 """Cliente IFRN/SGA para Telegram"""
 import logging
-
+from bot import connectPostgreSQL
 from bot import consts, texto
 from bot.Cliente import Cliente
 
@@ -66,6 +66,7 @@ class ClienteTelegram(Cliente):
                 context.bot.send_photo(
                     chat_id=update.effective_message.chat_id,
                     photo=open(consts.IMAGEPATH, "rb"),
+                    #photo=open("Imagem-Inicial.jpg","rb"),
                     caption=f"Olá, {update.effective_user.full_name}! que ótimo ter você por aqui 😀",
                 )
                 context.bot.send_message(
@@ -159,14 +160,24 @@ class ClienteTelegram(Cliente):
         argumentos = self.getResponseTextReplyMarkup(query.data, update)
         self.sendResposta(argumentos[0], argumentos[1])
 
+    def avaliar(self, update: Update, context: CallbackContext) -> None:
+        query = update.callback_query
+        handler = query
+        handler.answer()
 
+        buttons = [[InlineKeyboardButton("👍", callback_data="good")],
+                   [InlineKeyboardButton("👎", callback_data="bad"), ]]
+
+        context.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(buttons),
+                                 text="Qual a sua avaliação:?")
 
     def sugerir(self,update: Update, context: CallbackContext):
         context.bot.send_message(chat_id=update.effective_message.chat_id, text=texto.txt_sugestao)
         return self.comentar
 
     def comentar(self,update: Update, context: CallbackContext):
-        update.effective_message.reply_text(text=texto.txt_confirmar_sugestao+"\n\n"+ update.effective_message.text,
+        context.bot.send_message(chat_id=update.effective_message.chat_id, text=texto.txt_confirmar_sugestao)
+        update.effective_message.reply_text(text=update.effective_message.text,
                                             reply_markup=InlineKeyboardMarkup(buttons))
         return self.confimar
 
@@ -176,14 +187,20 @@ class ClienteTelegram(Cliente):
         handler.answer()
 
         if "yes" == query.data:
-            arquivo = open("SUGESTAO_"+update.effective_user.full_name+".txt", "w")
-            arquivo.write(update.effective_message.text.split(texto.txt_confirmar_sugestao+"\n\n")[1])
-            arquivo.close()
+
+            receba_nome = f"{update.effective_user.full_name}"
+            receba_msg = f'{update.effective_message.text}'
+            connectPostgreSQL.gravarMSG(receba_nome, receba_msg)
+
+            #arquivo = open("SUGESTAO_"+update.effective_user.full_name+".txt", "w")
+            #arquivo.write(update.effective_message.text.split(texto.txt_confirmar_sugestao+"\n\n")[1])
+            #arquivo.close()
 
             argumentos = self.getResponseTextReplyMarkup(texto.HOME, texto.HOME)
             handler.edit_message_text(
                 text=texto.txt_sugestao_agradecimento+"\n\n"+argumentos[0],reply_markup=argumentos[1])
             # self.sendResposta(argumentos[0], argumentos[1])
+
         if "no" == query.data:
             handler.edit_message_text(
                 text="operation cancel")
@@ -244,6 +261,9 @@ class ClienteTelegram(Cliente):
         )
         dispatcher.add_handler(conv_handler)
         dispatcher.add_handler(CommandHandler("start", self.start))
+
+        dispatcher.add_handler(CommandHandler("avaliar", self.avaliar))
+        #dispatcher.add_handler(CallbackQueryHandler(self.avaliar))
         # dispatcher.add_handler(CommandHandler("sugerir", self.sugerir))
         #dispatcher.add_handler(CallbackQueryHandler(self.balloon))
 #        dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, self.salvar_sugestao))
