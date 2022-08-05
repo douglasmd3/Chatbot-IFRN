@@ -1,3 +1,5 @@
+import sys
+
 import psycopg2 as MSCNT
 class bd_singleton_meta(type):
     """
@@ -45,6 +47,7 @@ class bd_singleton(metaclass=bd_singleton_meta):
         self.cnt.execute(f"insert into sugestao (nome, mensagem) values ('{usuario}','{sugestao}')")
         self.connect.commit()
         print(self.visualizar_sugestoes()[-1])
+        sys.stdout.flush()
 
     def __init__(self):
         self.cnt=self.criar_conexao()
