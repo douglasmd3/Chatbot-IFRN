@@ -33,6 +33,7 @@ class ClienteTelegram(Cliente):
         level=logging.INFO,
     )
     logger = logging.getLogger(__name__)
+    logger.info("Iniciando app")
 
     def salvar_metrica_numero_de_usuarios(self, context):
         """Salva métricas com o numero de usuarios que já usou o bot. Essa funcao é chamada quando o usuario manda um /start"""
