@@ -191,11 +191,6 @@ class ClienteTelegram(Cliente):
             receba_nome = f"{update.effective_user.full_name}"
             receba_msg = f'{update.effective_message.text}'
             connectPostgreSQL.gravarMSG(receba_nome, receba_msg)
-
-            #arquivo = open("SUGESTAO_"+update.effective_user.full_name+".txt", "w")
-            #arquivo.write(update.effective_message.text.split(texto.txt_confirmar_sugestao+"\n\n")[1])
-            #arquivo.close()
-
             argumentos = self.getResponseTextReplyMarkup(texto.HOME, texto.HOME)
             handler.edit_message_text(
                 text=texto.txt_sugestao_agradecimento+"\n\n"+argumentos[0],reply_markup=argumentos[1])
