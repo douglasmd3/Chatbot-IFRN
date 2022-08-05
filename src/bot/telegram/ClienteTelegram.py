@@ -1,13 +1,13 @@
 """Cliente IFRN/SGA para Telegram"""
 import logging
-from bot import connectPostgreSQL
-from bot import consts, texto
-from bot.Cliente import Cliente
+from  BOT.src.bot import consts, texto
+from  BOT.src.bot.Cliente import Cliente
 
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import (CallbackContext, CallbackQueryHandler,
                           CommandHandler, Filters, MessageHandler, Updater, ConversationHandler)
 
+from BOT.src.bot.database.bd_singleton import bd_singleton
 from . import botoesTelegram
 
 historico = []
@@ -22,6 +22,10 @@ buttons = [
 ]
 
 class ClienteTelegram(Cliente):
+
+
+    connection = bd_singleton()
+
     handler = None
     userName=""
     logging.basicConfig(
@@ -66,7 +70,6 @@ class ClienteTelegram(Cliente):
                 context.bot.send_photo(
                     chat_id=update.effective_message.chat_id,
                     photo=open(consts.IMAGEPATH, "rb"),
-                    #photo=open("Imagem-Inicial.jpg","rb"),
                     caption=f"Olá, {update.effective_user.full_name}! que ótimo ter você por aqui 😀",
                 )
                 context.bot.send_message(
@@ -188,9 +191,10 @@ class ClienteTelegram(Cliente):
 
         if "yes" == query.data:
 
-            receba_nome = f"{update.effective_user.full_name}"
-            receba_msg = f'{update.effective_message.text}'
-            connectPostgreSQL.gravarMSG(receba_nome, receba_msg)
+            usuario = f"{update.effective_user.full_name}"
+            msg = f'{update.effective_message.text}'
+            self.connection.gravar_sugestao(usuario,msg)
+            # connectPostgreSQL.gravar_sugestao(usuario, msg)
             argumentos = self.getResponseTextReplyMarkup(texto.HOME, texto.HOME)
             handler.edit_message_text(
                 text=texto.txt_sugestao_agradecimento+"\n\n"+argumentos[0],reply_markup=argumentos[1])
@@ -217,29 +221,6 @@ class ClienteTelegram(Cliente):
         updater = Updater(token)
         dispatcher = updater.dispatcher
 
-        # https://pt.stackoverflow.com/questions/297721/timeout-na-função-input-do-python
-        # import signal
-
-        # def timeout(signum, frame):
-        #    raise Exception('Seu tempo acabou!')
-
-        # signal.signal(signal.SIGALRM, timeout)
-        # signal.alarm(5)
-
-        # try:
-        #    signal.alarm(5)
-        #    name = input('Qual é o seu nome? ')
-        #    signal.alarm(0)
-        #    print('Seja bem-vindo,', name)
-        # except Exception as e:
-        #    print(e)
-
-        # Iniciar comandos da função quando solicitadas
-        # dispatcher.add_handler(MessageHandler(Filters.all, self.start))
-        # updater.dispatcher.add_handler(CallbackQueryHandler(self.balloon))
-
-        # updater.start_polling()
-        # updater.idle()
         conv_handler = ConversationHandler(
             entry_points=[
                 CommandHandler("sugerir", self.sugerir),
