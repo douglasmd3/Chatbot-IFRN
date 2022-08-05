@@ -1,5 +1,7 @@
 """Cliente IFRN/SGA para Telegram"""
 import logging
+import sys
+
 from  BOT.src.bot import consts, texto
 from  BOT.src.bot.Cliente import Cliente
 
@@ -33,7 +35,14 @@ class ClienteTelegram(Cliente):
         level=logging.INFO,
     )
     logger = logging.getLogger(__name__)
-    logger.info("Iniciando app")
+
+
+
+    def print_to_stdout(*a):
+
+        # Here a is the array holding the objects
+        # passed as the argument of the function
+        print(*a, file=sys.stdout)
 
     def salvar_metrica_numero_de_usuarios(self, context):
         """Salva métricas com o numero de usuarios que já usou o bot. Essa funcao é chamada quando o usuario manda um /start"""
@@ -250,4 +259,5 @@ class ClienteTelegram(Cliente):
 
 if __name__ == "__main__":
     clienteTelegram = ClienteTelegram()
+    clienteTelegram.print_to_stdout("OIIII")
     clienteTelegram.iniciar()
