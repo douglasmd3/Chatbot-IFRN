@@ -2,14 +2,14 @@
 import logging
 import sys
 
-from  BOT.src.bot import consts, texto
-from  BOT.src.bot.Cliente import Cliente
+from  bot import consts, texto
+from  bot.Cliente import Cliente
 
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import (CallbackContext, CallbackQueryHandler,
                           CommandHandler, Filters, MessageHandler, Updater, ConversationHandler)
 
-from BOT.src.bot.database.bd_singleton import bd_singleton
+from bot.database.bd_singleton import bd_singleton
 from . import botoesTelegram
 
 historico = []
