@@ -12,8 +12,10 @@ from telegram.ext import (CallbackContext, CallbackQueryHandler,
 from bot.database.bd_singleton import bd_singleton
 from . import botoesTelegram
 
+allowedUsernames = []
 historico = []
-NUMEROUSUARIOSBOTFILENAME = "numeroUsuariosBot.txt"
+NUMEROINTERACOESBOTFILENAME = "numeroInteracoesBot.txt"
+NUMEROSUSUARIOSBOTFILENAME="numeroUsuariosBot.txt"
 NUMERODEUSUARIOS = 0
 
 buttons = [
@@ -41,13 +43,42 @@ class ClienteTelegram(Cliente):
         # passed as the argument of the function
         print(*a, file=sys.stdout)
 
-    def salvar_metrica_numero_de_usuarios(self, context):
+    def salvar_metrica_numero_de_interacoes(self, context):
+        #TODO: Alterar docstring """Salva métricas com o numero de interacoes que já usou o bot. Essa funcao é chamada quando o usuario manda um /start"""
+        try:
+            numero_de_interacoes_file = open(NUMEROINTERACOESBOTFILENAME, "r", encoding="utf-8")
+        except FileNotFoundError:
+            open(NUMEROINTERACOESBOTFILENAME, "x")
+            numero_de_interacoes_file = open(NUMEROINTERACOESBOTFILENAME, "r", encoding="utf-8")
+
+        numero_de_interacoes = numero_de_interacoes_file.read()
+        numero_de_interacoes_file.close()
+        if numero_de_interacoes == "":
+            numero_de_interacoes = 0
+        else:
+            numero_de_interacoes = int(numero_de_interacoes)
+
+        self.connection.gravar_n_interacoes(numero_de_interacoes + 1)
+
+        context.bot.send_message(
+            # -1001795732349
+            chat_id=-1001565692647,
+            text=f"{numero_de_interacoes + 1}",
+        )
+
+        arquivo = open(NUMEROINTERACOESBOTFILENAME, "w", encoding="utf-8")
+
+        interacoes_do_bot = str(numero_de_interacoes + 1)
+        arquivo.write(interacoes_do_bot)
+        arquivo.close()
+
+    def save_metrica_usuario_atendido_banco(self, context):
         """Salva métricas com o numero de usuarios que já usou o bot. Essa funcao é chamada quando o usuario manda um /start"""
         try:
-            numero_de_usuarios_file = open(NUMEROUSUARIOSBOTFILENAME, "r", encoding="utf-8")
+            numero_de_usuarios_file = open(NUMEROSUSUARIOSBOTFILENAME, "r", encoding="utf-8")
         except FileNotFoundError:
-            open(NUMEROUSUARIOSBOTFILENAME, "x")
-            numero_de_usuarios_file = open(NUMEROUSUARIOSBOTFILENAME, "r", encoding="utf-8")
+            open(NUMEROSUSUARIOSBOTFILENAME, "x")
+            numero_de_usuarios_file = open(NUMEROSUSUARIOSBOTFILENAME, "r", encoding="utf-8")
 
         numero_de_usuarios = numero_de_usuarios_file.read()
         numero_de_usuarios_file.close()
@@ -56,8 +87,7 @@ class ClienteTelegram(Cliente):
         else:
             numero_de_usuarios = int(numero_de_usuarios)
 
-        Quser = numero_de_usuarios + 1
-        self.connection.gravar_Quser(Quser)
+        self.connection.gravar_n_usuarios(numero_de_usuarios + 1)
 
         context.bot.send_message(
             # -1001795732349
@@ -65,15 +95,23 @@ class ClienteTelegram(Cliente):
             text=f"{numero_de_usuarios + 1}",
         )
 
-        arquivo = open(NUMEROUSUARIOSBOTFILENAME, "w", encoding="utf-8")
+        arquivo = open(NUMEROSUSUARIOSBOTFILENAME, "w", encoding="utf-8")
 
         usuarios_do_bot = str(numero_de_usuarios + 1)
         arquivo.write(usuarios_do_bot)
         arquivo.close()
 
+    def save_metrica_usuario_atendido(self,update):
+        if update.effective_chat.username not in allowedUsernames:
+             allowedUsernames.append(update.effective_chat.username)
+             self.salvar_metrica_usuario_atendido_banco(context)
+
     def start(self, update: Update, context: CallbackContext) -> None:
         historico.clear()
-        self.salvar_metrica_numero_de_usuarios(context)
+        # qunatidade de usuários diferentes iniciaram o bot:
+        # if update.effective_chat.username not in alloweUsernames:
+        #     alloweUsernames.append(update.effective_chat.username)
+        #     self.salvar_metrica_numero_de_usuarios(context)
         self.userName = update.effective_user.full_name
         if update.effective_user is not None:
             if update.effective_message is not None:
@@ -104,6 +142,8 @@ class ClienteTelegram(Cliente):
         return botoesTelegram.regressar_setor_line(historico)
 
     def getReplyMarkup(self, option):
+        self.salvar_metrica_numero_de_interacoes(context)
+        self.userName = update.effective_user.full_name
         replyMarkup = {
             texto.HOME: botoesTelegram.start_lines(),
             texto.ESTRUTURA_ADMINISTRATIVA: botoesTelegram.setor_line(),
@@ -134,6 +174,7 @@ class ClienteTelegram(Cliente):
 
     def getResponseText(self, option, update):
         text = {
+            texto.AVALIAR: texto.txt_avaliar,
             texto.SUGERIR: texto.txt_sugestao,
             texto.HOME: f"Olá! " + self.userName + "\n" + texto.start_texto,
             texto.ESTRUTURA_ADMINISTRATIVA: "Escolha uma opção disponível para continuar 👇",
@@ -170,6 +211,8 @@ class ClienteTelegram(Cliente):
         if (query.data == texto.SUGERIR):
             return self.sugerir(update, context)
 
+        if(query.data==texto.HOME):
+            self.salvar_metrica_numero_de_interacoes(context)
         argumentos = self.getResponseTextReplyMarkup(query.data, update)
         self.sendResposta(argumentos[0], argumentos[1])
 
@@ -202,7 +245,9 @@ class ClienteTelegram(Cliente):
         if "yes" == query.data:
             usuario = f"{update.effective_user.full_name}"
             msg = f'{update.effective_message.text}'
-            self.connection.gravar_sugestao(usuario, msg)
+            if self.connection.gravar_sugestao(usuario, msg) is None:
+                handler.edit_message_text("A sugestão não pode ser compreendida!")
+                return ConversationHandler.END
             # connectPostgreSQL.gravar_sugestao(usuario, msg)
             argumentos = self.getResponseTextReplyMarkup(texto.HOME, texto.HOME)
             handler.edit_message_text(
@@ -212,6 +257,7 @@ class ClienteTelegram(Cliente):
         if "no" == query.data:
             handler.edit_message_text(
                 text="operation cancel")
+
 
         return ConversationHandler.END
 

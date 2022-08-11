@@ -8,6 +8,7 @@ CONTATO_COEX = "CONTATO_COEX"
 FAQ_SEAC = "FAQ_SEAC"
 FAQ_COEX = "FAQ_COEX"
 SUGERIR = "SUGERIR"
+AVALIAR = "AVALIAR"
 start_texto = "Para prosseguir, selecione uma opção disponível que poderá lhe ajudar no seu atendimento 👇"
 
 
@@ -196,6 +197,8 @@ Art. 225. Cada disciplina poderá ser cancelada apenas uma vez. Para requerer o 
 ⚠ 4) Escolha "Cancelamento de Disciplina" no campo tipo do requerimento. Insira uma justificativa no campo "Descrição/Justificativa". Clique no botão "Salvar"; 
 ⚠ 5) Caso tenha menos de 18 anos, anexe a imagem do RG do responsável legal. \nPronto! O requerimento foi criado. Assim que os servidores da secretaria Acadêmica abrirem o requerimento, a solicitação será avaliada e posteriormente será realizado o cancelamento da disciplina.
 """
+
+txt_avaliar = """Avalie:"""
 
 txt_sugestao = """Faça a sua sugestão ao nosso bot"""
 txt_sugestao_agradecimento = "Obrigado pela sua sugestão"

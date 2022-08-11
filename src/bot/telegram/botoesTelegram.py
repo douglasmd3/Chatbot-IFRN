@@ -26,13 +26,12 @@ def regressar_setor_line(historico):
 #         "🏠", callback_data="HOME"), InlineKeyboardButton("↩", callback_data=texto.COEX_SGA)]])
 
 
-buttons = [
-    [InlineKeyboardButton("👍", callback_data="good")],
-    [
-        InlineKeyboardButton("👎", callback_data="bad"),
-    ],
-]
-buttons = InlineKeyboardMarkup(buttons)
+def buttons_avaliar():
+    return InlineKeyboardMarkup([
+    [InlineKeyboardButton("😊 - Bonzinho", callback_data="good")],
+    [InlineKeyboardButton("🤔 - Normal", callback_data="normal"),],
+    [InlineKeyboardButton("☹ - Ruinzinho", callback_data="bad"),],
+    ])
 
 
 # MENU 4 - FAQ-SEAC: CHAMADA POR FAQ_seac + OPÇÕES DE VOLTAR INICIO OU MENU 4 PARA MENU 3
@@ -50,7 +49,7 @@ def start_lines():
         [
             [
                 InlineKeyboardButton("🏢 SETORES", callback_data=texto.ESTRUTURA_ADMINISTRATIVA),  # botao_feed
-                InlineKeyboardButton("📊 AVALIAR", callback_data="Avaliar"),
+                InlineKeyboardButton("📊 AVALIAR", callback_data=texto.AVALIAR),
                 InlineKeyboardButton("💬 SUGERIR", callback_data=texto.SUGERIR),
             ],
         ]

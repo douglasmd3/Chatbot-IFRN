@@ -49,14 +49,23 @@ class bd_singleton(metaclass=bd_singleton_meta):
         return lista_sugestao
 
     def gravar_sugestao(self,usuario, sugestao):
-        self.cnt.execute(f"insert into sugestao (nome, mensagem) values ('{usuario}','{sugestao}')")
-        self.connect.commit()
-        print(self.visualizar_sugestoes()[-1])
-        sys.stdout.flush()
+        try:
+            self.cnt.execute(f"insert into sugestao (nome, mensagem) values ('{usuario}','{sugestao}')")
+            self.connect.commit()
+            print(self.visualizar_sugestoes()[-1])
+            sys.stdout.flush()
+            return True
+        except:
+            print("comentário não salvo.")
+            return None
 
-    def gravar_Quser(self, Quser):
+    def gravar_n_interacoes(self, n_interacoes):
         # no banco o Quser tem que iniciar com 0 e não estar vazio.
-        self.cnt.execute(f"update register set quantidade_de_usuario = {Quser}")
+        self.cnt.execute(f"update register set quantidade_de_interacao = {n_interacoes}")
+        self.connect.commit()
+
+    def gravar_n_usuarios(self,n_usuarios):
+        self.cnt.execute(f"update register set quantidade_de_usuarios = {n_usuarios}")
         self.connect.commit()
 
     def __init__(self):
