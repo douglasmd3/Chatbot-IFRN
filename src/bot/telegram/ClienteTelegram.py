@@ -2,8 +2,8 @@
 import logging
 import sys
 
-from  bot import consts, texto
-from  bot.Cliente import Cliente
+from bot import consts, texto
+from bot.Cliente import Cliente
 
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import (CallbackContext, CallbackQueryHandler,
@@ -23,20 +23,17 @@ buttons = [
     ]
 ]
 
+
 class ClienteTelegram(Cliente):
-
-
     connection = bd_singleton()
 
     handler = None
-    userName=""
+    userName = ""
     logging.basicConfig(
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         level=logging.INFO,
     )
     logger = logging.getLogger(__name__)
-
-
 
     def print_to_stdout(*a):
 
@@ -59,10 +56,13 @@ class ClienteTelegram(Cliente):
         else:
             numero_de_usuarios = int(numero_de_usuarios)
 
+        Quser = numero_de_usuarios + 1
+        self.connection.gravar_Quser(Quser)
+
         context.bot.send_message(
             # -1001795732349
             chat_id=-1001565692647,
-            text=f"{numero_de_usuarios+1}",
+            text=f"{numero_de_usuarios + 1}",
         )
 
         arquivo = open(NUMEROUSUARIOSBOTFILENAME, "w", encoding="utf-8")
@@ -74,7 +74,7 @@ class ClienteTelegram(Cliente):
     def start(self, update: Update, context: CallbackContext) -> None:
         historico.clear()
         self.salvar_metrica_numero_de_usuarios(context)
-        self.userName=update.effective_user.full_name
+        self.userName = update.effective_user.full_name
         if update.effective_user is not None:
             if update.effective_message is not None:
                 context.bot.send_photo(
@@ -135,7 +135,7 @@ class ClienteTelegram(Cliente):
     def getResponseText(self, option, update):
         text = {
             texto.SUGERIR: texto.txt_sugestao,
-            texto.HOME: f"Olá! " +self.userName+"\n"+ texto.start_texto,
+            texto.HOME: f"Olá! " + self.userName + "\n" + texto.start_texto,
             texto.ESTRUTURA_ADMINISTRATIVA: "Escolha uma opção disponível para continuar 👇",
             texto.SEAC_SGA: texto.txt_seac,
             texto.VOLTAR_FAQ_SEAC: texto.txt_seac + texto.FAQ,
@@ -151,8 +151,8 @@ class ClienteTelegram(Cliente):
             texto.FAQSEAC6: texto.txt_faq_seac6,
             texto.FAQSEAC7: texto.txt_faq_seac7,
             texto.FAQSEAC8: texto.txt_faq_seac8,
-            texto.FAQSEAC9:texto.txt_faq_seac9,
-            texto.FAQSEAC_10:texto.txt_faq_seac_10,
+            texto.FAQSEAC9: texto.txt_faq_seac9,
+            texto.FAQSEAC_10: texto.txt_faq_seac_10,
             texto.FAQ_COEX: texto.txt_coex + texto.FAQ,
         }
 
@@ -167,8 +167,8 @@ class ClienteTelegram(Cliente):
         self.handler = query
         self.handler.answer()
 
-        if(query.data==texto.SUGERIR):
-            return self.sugerir(update,context)
+        if (query.data == texto.SUGERIR):
+            return self.sugerir(update, context)
 
         argumentos = self.getResponseTextReplyMarkup(query.data, update)
         self.sendResposta(argumentos[0], argumentos[1])
@@ -184,30 +184,29 @@ class ClienteTelegram(Cliente):
         context.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(buttons),
                                  text="Qual a sua avaliação:?")
 
-    def sugerir(self,update: Update, context: CallbackContext):
+    def sugerir(self, update: Update, context: CallbackContext):
         context.bot.send_message(chat_id=update.effective_message.chat_id, text=texto.txt_sugestao)
         return self.comentar
 
-    def comentar(self,update: Update, context: CallbackContext):
+    def comentar(self, update: Update, context: CallbackContext):
         context.bot.send_message(chat_id=update.effective_message.chat_id, text=texto.txt_confirmar_sugestao)
         update.effective_message.reply_text(text=update.effective_message.text,
                                             reply_markup=InlineKeyboardMarkup(buttons))
         return self.confimar
 
-    def confimar(self,update: Update, context: CallbackContext):
+    def confimar(self, update: Update, context: CallbackContext):
         query = update.callback_query
         handler = query
         handler.answer()
 
         if "yes" == query.data:
-
             usuario = f"{update.effective_user.full_name}"
             msg = f'{update.effective_message.text}'
-            self.connection.gravar_sugestao(usuario,msg)
+            self.connection.gravar_sugestao(usuario, msg)
             # connectPostgreSQL.gravar_sugestao(usuario, msg)
             argumentos = self.getResponseTextReplyMarkup(texto.HOME, texto.HOME)
             handler.edit_message_text(
-                text=texto.txt_sugestao_agradecimento+"\n\n"+argumentos[0],reply_markup=argumentos[1])
+                text=texto.txt_sugestao_agradecimento + "\n\n" + argumentos[0], reply_markup=argumentos[1])
             # self.sendResposta(argumentos[0], argumentos[1])
 
         if "no" == query.data:
@@ -216,8 +215,8 @@ class ClienteTelegram(Cliente):
 
         return ConversationHandler.END
 
-    def send_home(self,update,context):
-        self.sendResposta(texto.HOME,texto.HOME)
+    def send_home(self, update, context):
+        self.sendResposta(texto.HOME, texto.HOME)
         return ConversationHandler.END
 
     def cancel(update: Update, context: CallbackContext):
@@ -240,7 +239,7 @@ class ClienteTelegram(Cliente):
                 self.confimar: [CallbackQueryHandler(self.confimar)],
                 ConversationHandler.TIMEOUT: [CallbackQueryHandler(self.confimar, self.timeout),
                                               MessageHandler(Filters.text, self.timeout)],
-                self.send_home:[MessageHandler(Filters.text, self.send_home)]
+                self.send_home: [MessageHandler(Filters.text, self.send_home)]
             },
             fallbacks=[CommandHandler('cancel', self.cancel)],
             conversation_timeout=10
@@ -249,10 +248,10 @@ class ClienteTelegram(Cliente):
         dispatcher.add_handler(CommandHandler("start", self.start))
 
         dispatcher.add_handler(CommandHandler("avaliar", self.avaliar))
-        #dispatcher.add_handler(CallbackQueryHandler(self.avaliar))
+        # dispatcher.add_handler(CallbackQueryHandler(self.avaliar))
         # dispatcher.add_handler(CommandHandler("sugerir", self.sugerir))
-        #dispatcher.add_handler(CallbackQueryHandler(self.balloon))
-#        dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, self.salvar_sugestao))
+        # dispatcher.add_handler(CallbackQueryHandler(self.balloon))
+        #        dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, self.salvar_sugestao))
         updater.start_polling()
         updater.idle()
 
