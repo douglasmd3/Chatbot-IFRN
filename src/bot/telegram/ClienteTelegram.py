@@ -17,6 +17,8 @@ historico = []
 NUMEROINTERACOESBOTFILENAME = "numeroInteracoesBot.txt"
 NUMEROSUSUARIOSBOTFILENAME="numeroUsuariosBot.txt"
 NUMERODEUSUARIOS = 0
+likes = 0
+dislikes = 0
 
 buttons = [
     [
@@ -206,6 +208,14 @@ class ClienteTelegram(Cliente):
     def getResponseTextReplyMarkup(self, option, update):
         return [self.getResponseText(option, update), self.getReplyMarkup(option)]
 
+    def avaliar (self, update: Update, context: CallbackContext) -> None:
+        print("oi")
+        context.bot.send_message(
+        chat_id=update.effective_message.chat_id,
+        text=texto.txt_avaliar,
+        reply_markup=botoesTelegram.buttons_avaliar()
+        )
+
     def balloon(self, update: Update, context: CallbackContext) -> None:
 
         query = update.callback_query
@@ -219,17 +229,6 @@ class ClienteTelegram(Cliente):
             self.salvar_metrica_numero_de_interacoes()
         argumentos = self.getResponseTextReplyMarkup(query.data, update)
         self.sendResposta(argumentos[0], argumentos[1])
-
-    def avaliar(self, update: Update, context: CallbackContext) -> None:
-        query = update.callback_query
-        handler = query
-        handler.answer()
-
-        buttons = [[InlineKeyboardButton("👍", callback_data="good")],
-                   [InlineKeyboardButton("👎", callback_data="bad"), ]]
-
-        context.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(buttons),
-                                 text="Qual a sua avaliação:?")
 
     def sugerir(self, update: Update, context: CallbackContext):
         context.bot.send_message(chat_id=update.effective_message.chat_id, text=texto.txt_sugestao)
@@ -259,8 +258,9 @@ class ClienteTelegram(Cliente):
             # self.sendResposta(argumentos[0], argumentos[1])
 
         if "no" == query.data:
+            argumentos = self.getResponseTextReplyMarkup(texto.HOME, texto.HOME)
             handler.edit_message_text(
-                text="operation cancel")
+                text=texto.txt_sugestao_cancelada + "\n\n" + argumentos[0], reply_markup=argumentos[1])
 
 
         return ConversationHandler.END
@@ -296,10 +296,8 @@ class ClienteTelegram(Cliente):
         )
         dispatcher.add_handler(conv_handler)
         dispatcher.add_handler(CommandHandler("start", self.start))
-
         dispatcher.add_handler(CommandHandler("avaliar", self.avaliar))
-        # dispatcher.add_handler(CallbackQueryHandler(self.avaliar))
-        # dispatcher.add_handler(CommandHandler("sugerir", self.sugerir))
+
         # dispatcher.add_handler(CallbackQueryHandler(self.balloon))
         #        dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, self.salvar_sugestao))
         updater.start_polling()

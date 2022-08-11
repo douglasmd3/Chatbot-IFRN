@@ -198,8 +198,12 @@ Art. 225. Cada disciplina poderá ser cancelada apenas uma vez. Para requerer o 
 ⚠ 5) Caso tenha menos de 18 anos, anexe a imagem do RG do responsável legal. \nPronto! O requerimento foi criado. Assim que os servidores da secretaria Acadêmica abrirem o requerimento, a solicitação será avaliada e posteriormente será realizado o cancelamento da disciplina.
 """
 
-txt_avaliar = """Avalie:"""
+txt_avaliar = """Olá, desejamos a sua avaliação. considere este chatbot um ponto inicial para futuras implementações ao uso aos outros setores. Sabendo disto, o chatbot pode ser útil para você na prestação de atendimentos e interação acadêmica.
+
+Qual a sua Avaliação:"""
 
 txt_sugestao = """Faça a sua sugestão ao nosso bot"""
 txt_sugestao_agradecimento = "Obrigado pela sua sugestão"
 txt_confirmar_sugestao="""Você deseja confirmar a sua sugestão 👇"""
+txt_sugestao_cancelada = """Ok, sua sugestão foi cancelada. Fica para uma próxima ne?. 
+Sua sugestão será sempre bem-vinda para melhor lhe atender. Até logo."""

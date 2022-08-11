@@ -28,9 +28,11 @@ def regressar_setor_line(historico):
 
 def buttons_avaliar():
     return InlineKeyboardMarkup([
-    [InlineKeyboardButton("😊 - Bonzinho", callback_data="good")],
-    [InlineKeyboardButton("🤔 - Normal", callback_data="normal"),],
-    [InlineKeyboardButton("☹ - Ruinzinho", callback_data="bad"),],
+    [InlineKeyboardButton("🏠", callback_data=texto.HOME),
+     InlineKeyboardButton("↩", callback_data=texto.SEAC_SGA),],
+    [InlineKeyboardButton("😊 - Bom, gostei!", callback_data="good")],
+    [InlineKeyboardButton("🤔 - Normal, tanto faz.", callback_data="normal"),],
+    [InlineKeyboardButton("☹ - Ruim, Não gostei.", callback_data="bad"),],
     ])
 
 
@@ -61,7 +63,7 @@ def setor_line():
         [
             [
                 InlineKeyboardButton("🏠", callback_data=texto.HOME),
-                InlineKeyboardButton("📊", callback_data="Avaliar"),
+                InlineKeyboardButton("📊", callback_data=texto.AVALIAR),
                 InlineKeyboardButton("💬", callback_data=texto.SUGERIR),
             ],
             [InlineKeyboardButton("🏢 SECRETARIA ACADÊMICA | SEAC/SGA", callback_data=texto.SEAC_SGA)],
@@ -77,7 +79,7 @@ def menu_seac():
             [
                 InlineKeyboardButton("🏠", callback_data=texto.HOME),
                 InlineKeyboardButton("↩", callback_data=texto.ESTRUTURA_ADMINISTRATIVA),
-                InlineKeyboardButton("📊", callback_data="Avaliar"),
+                InlineKeyboardButton("📊", callback_data=texto.AVALIAR),
                 InlineKeyboardButton("💬", callback_data=texto.SUGERIR),
             ],
             [
