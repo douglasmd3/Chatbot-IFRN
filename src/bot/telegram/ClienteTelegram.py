@@ -148,6 +148,7 @@ class ClienteTelegram(Cliente):
     def getReplyMarkup(self, option):
         self.salvar_metrica_numero_de_interacoes()
         replyMarkup = {
+            texto.AVALIAR: botoesTelegram.buttons_avaliar(),
             texto.HOME: botoesTelegram.start_lines(),
             texto.ESTRUTURA_ADMINISTRATIVA: botoesTelegram.setor_line(),
             texto.SEAC_SGA: botoesTelegram.menu_seac(),
