@@ -61,7 +61,7 @@ class bd_singleton(metaclass=bd_singleton_meta):
 
     def gravar_n_interacoes(self, n_interacoes):
         # no banco o Quser tem que iniciar com 0 e não estar vazio.
-        self.cnt.execute(f"update register set quantidade_de_interacao = {n_interacoes}")
+        self.cnt.execute(f"update interacao set quantidade_de_interacao = {n_interacoes}")
         self.connect.commit()
 
     def gravar_n_usuarios(self,n_usuarios):
