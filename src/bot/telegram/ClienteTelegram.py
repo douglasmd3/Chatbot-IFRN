@@ -72,7 +72,7 @@ class ClienteTelegram(Cliente):
         arquivo.write(interacoes_do_bot)
         arquivo.close()
 
-    def save_metrica_usuario_atendido_banco(self, context):
+    def save_metrica_usuario_atendido_banco(self):
         """Salva métricas com o numero de usuarios que já usou o bot. Essa funcao é chamada quando o usuario manda um /start"""
         try:
             numero_de_usuarios_file = open(NUMEROSUSUARIOSBOTFILENAME, "r", encoding="utf-8")
@@ -89,11 +89,11 @@ class ClienteTelegram(Cliente):
 
         self.connection.gravar_n_usuarios(numero_de_usuarios + 1)
 
-        context.bot.send_message(
-            # -1001795732349
-            chat_id=-1001565692647,
-            text=f"{numero_de_usuarios + 1}",
-        )
+        # context.bot.send_message(
+        #     # -1001795732349
+        #     chat_id=-1001565692647,
+        #     text=f"{numero_de_usuarios + 1}",
+        # )
 
         arquivo = open(NUMEROSUSUARIOSBOTFILENAME, "w", encoding="utf-8")
 
@@ -104,7 +104,7 @@ class ClienteTelegram(Cliente):
     def save_metrica_usuario_atendido(self,update):
         if update.effective_chat.username not in allowedUsernames:
              allowedUsernames.append(update.effective_chat.username)
-             self.salvar_metrica_usuario_atendido_banco(context)
+             self.salvar_metrica_usuario_atendido_banco()
 
     def start(self, update: Update, context: CallbackContext) -> None:
         historico.clear()
