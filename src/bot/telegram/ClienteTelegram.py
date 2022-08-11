@@ -211,7 +211,7 @@ class ClienteTelegram(Cliente):
             return self.sugerir(update, context)
 
         if(query.data==texto.HOME):
-            self.salvar_metrica_numero_de_interacoes(context)
+            self.salvar_metrica_numero_de_interacoes()
         argumentos = self.getResponseTextReplyMarkup(query.data, update)
         self.sendResposta(argumentos[0], argumentos[1])
 
