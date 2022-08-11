@@ -102,9 +102,12 @@ class ClienteTelegram(Cliente):
         arquivo.close()
 
     def save_metrica_usuario_atendido(self,update):
+        print(update.effective_chat.username)
+        print(allowedUsernames)
+        print(update.effective_chat.username not in allowedUsernames)
         if update.effective_chat.username not in allowedUsernames:
              allowedUsernames.append(update.effective_chat.username)
-             self.salvar_metrica_usuario_atendido_banco()
+             self.save_metrica_usuario_atendido_banco()
 
     def start(self, update: Update, context: CallbackContext) -> None:
         historico.clear()
@@ -112,6 +115,7 @@ class ClienteTelegram(Cliente):
         # if update.effective_chat.username not in alloweUsernames:
         #     alloweUsernames.append(update.effective_chat.username)
         #     self.salvar_metrica_numero_de_usuarios(context)
+        self.save_metrica_usuario_atendido(update)
         self.userName = update.effective_user.full_name
         if update.effective_user is not None:
             if update.effective_message is not None:
