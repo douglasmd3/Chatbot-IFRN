@@ -54,5 +54,10 @@ class bd_singleton(metaclass=bd_singleton_meta):
         print(self.visualizar_sugestoes()[-1])
         sys.stdout.flush()
 
+    def gravar_Quser(self, Quser):
+        # no banco o Quser tem que iniciar com 0 e não estar vazio.
+        self.cnt.execute(f"update register set quantidade_de_usuario = {Quser}")
+        self.connect.commit()
+
     def __init__(self):
         self.cnt=self.criar_conexao()
