@@ -65,7 +65,7 @@ class bd_singleton(metaclass=bd_singleton_meta):
         self.connect.commit()
 
     def gravar_n_usuarios(self,n_usuarios):
-        self.cnt.execute(f"update register set quantidade_de_usuarios = {n_usuarios}")
+        self.cnt.execute(f"update register set quantidade_de_usuario = {n_usuarios}")
         self.connect.commit()
 
     def __init__(self):
