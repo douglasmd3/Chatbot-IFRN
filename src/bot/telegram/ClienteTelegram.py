@@ -143,7 +143,6 @@ class ClienteTelegram(Cliente):
 
     def getReplyMarkup(self, option):
         self.salvar_metrica_numero_de_interacoes()
-        self.userName = update.effective_user.full_name
         replyMarkup = {
             texto.HOME: botoesTelegram.start_lines(),
             texto.ESTRUTURA_ADMINISTRATIVA: botoesTelegram.setor_line(),
