@@ -8,8 +8,8 @@ def regressar_setor_line(historico):
     return InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("🏠", callback_data=texto.HOME),
-                InlineKeyboardButton("↩", callback_data=voltar),
+                InlineKeyboardButton("🏠 HOME", callback_data=texto.HOME),
+                InlineKeyboardButton("↩ RETURN", callback_data=voltar),
             ]
         ]
     )
@@ -25,16 +25,25 @@ def regressar_setor_line(historico):
 #     return InlineKeyboardMarkup([[InlineKeyboardButton(
 #         "🏠", callback_data="HOME"), InlineKeyboardButton("↩", callback_data=texto.COEX_SGA)]])
 
-
 def buttons_avaliar():
     return InlineKeyboardMarkup([
-    [InlineKeyboardButton("🏠", callback_data=texto.HOME),
-     InlineKeyboardButton("↩", callback_data=texto.SEAC_SGA),],
-    [InlineKeyboardButton("😊 - Bom, gostei!", callback_data="good")],
-    [InlineKeyboardButton("🤔 - Normal, tanto faz.", callback_data="normal"),],
-    [InlineKeyboardButton("☹ - Ruim, Não gostei.", callback_data="bad"),],
+    [
+        InlineKeyboardButton("🏠 HOME", callback_data=texto.HOME),
+        InlineKeyboardButton("🏢 SETORES", callback_data=texto.ESTRUTURA_ADMINISTRATIVA),
+    ],
+    [InlineKeyboardButton("😊 - Bom, gostei!", callback_data=texto.BOM)],
+    [InlineKeyboardButton("🤔 - Normal, tanto faz.", callback_data=texto.NORMAL),],
+    [InlineKeyboardButton("☹ - Ruim, Não gostei.", callback_data=texto.RUIM),],
     ])
 
+
+def resposta_avaliacao():
+    return InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton("🏠 HOME", callback_data=texto.HOME),
+            InlineKeyboardButton("🏢 SETORES", callback_data=texto.ESTRUTURA_ADMINISTRATIVA),
+        ]
+    ])
 
 # MENU 4 - FAQ-SEAC: CHAMADA POR FAQ_seac + OPÇÕES DE VOLTAR INICIO OU MENU 4 PARA MENU 3
 

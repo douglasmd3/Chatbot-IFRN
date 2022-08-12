@@ -16,9 +16,10 @@ allowedUsernames = []
 historico = []
 NUMEROINTERACOESBOTFILENAME = "numeroInteracoesBot.txt"
 NUMEROSUSUARIOSBOTFILENAME="numeroUsuariosBot.txt"
+AVALIARSATISFACAOBOM = "SatisfacaoUsuarioBom.txt"
+AVALIARSATISFACAORUIM = "SatisfacaoUsuarioRuim.txt"
+AVALIARSATISFACAONORMAL = "SatisfacaoUsuarioNormal.txt"
 NUMERODEUSUARIOS = 0
-likes = 0
-dislikes = 0
 
 buttons = [
     [
@@ -26,7 +27,6 @@ buttons = [
         InlineKeyboardButton("🔴 Cancelar".upper(), callback_data="no")
     ]
 ]
-
 
 class ClienteTelegram(Cliente):
     connection = bd_singleton()
@@ -45,6 +45,75 @@ class ClienteTelegram(Cliente):
         # passed as the argument of the function
         print(*a, file=sys.stdout)
 
+################################################################################################
+    def salvar_metrica_avaliar_bom(self):
+        try:
+            satisfacao_do_usuario_bom_file = open(AVALIARSATISFACAOBOM, "r", encoding="utf-8")
+        except FileNotFoundError:
+            open(AVALIARSATISFACAOBOM, "x")
+            satisfacao_do_usuario_bom_file = open(AVALIARSATISFACAOBOM, "r", encoding="utf-8")
+
+        satisfacao_do_usuario_bom = satisfacao_do_usuario_bom_file.read()
+        satisfacao_do_usuario_bom_file.close()
+        if satisfacao_do_usuario_bom == "":
+            satisfacao_do_usuario_bom = 0
+        else:
+            satisfacao_do_usuario_bom = int(satisfacao_do_usuario_bom)
+
+        self.connection.gravar_avaliar_bom(satisfacao_do_usuario_bom + 1)
+
+        arquivo = open(AVALIARSATISFACAOBOM, "w", encoding="utf-8")
+
+        satisfacao_do_usuario_bom = str(satisfacao_do_usuario_bom + 1)
+        arquivo.write(satisfacao_do_usuario_bom)
+        arquivo.close()
+
+    def salvar_metrica_avaliar_ruim(self):
+        try:
+            satisfacao_do_usuario_ruim_file = open(AVALIARSATISFACAORUIM, "r", encoding="utf-8")
+        except FileNotFoundError:
+            open(AVALIARSATISFACAORUIM, "x")
+            satisfacao_do_usuario_ruim_file = open(AVALIARSATISFACAORUIM, "r", encoding="utf-8")
+
+        satisfacao_do_usuario_ruim = satisfacao_do_usuario_ruim_file.read()
+        satisfacao_do_usuario_ruim_file.close()
+        if satisfacao_do_usuario_ruim == "":
+            satisfacao_do_usuario_ruim = 0
+        else:
+            satisfacao_do_usuario_ruim = int(satisfacao_do_usuario_ruim)
+
+        self.connection.gravar_avaliar_ruim(satisfacao_do_usuario_ruim + 1)
+
+        arquivo = open(AVALIARSATISFACAORUIM, "w", encoding="utf-8")
+
+        satisfacao_do_usuario_ruim = str(satisfacao_do_usuario_ruim + 1)
+        arquivo.write(satisfacao_do_usuario_ruim)
+        arquivo.close()
+
+    def salvar_metrica_avaliar_normal(self):
+        try:
+            satisfacao_do_usuario_normal_file = open(AVALIARSATISFACAONORMAL, "r", encoding="utf-8")
+        except FileNotFoundError:
+            open(AVALIARSATISFACAONORMAL, "x")
+            satisfacao_do_usuario_normal_file = open(AVALIARSATISFACAONORMAL, "r", encoding="utf-8")
+
+        satisfacao_do_usuario_normal = satisfacao_do_usuario_normal_file.read()
+        satisfacao_do_usuario_normal_file.close()
+        if satisfacao_do_usuario_normal == "":
+            satisfacao_do_usuario_normal = 0
+        else:
+            satisfacao_do_usuario_normal = int(satisfacao_do_usuario_normal)
+
+        self.connection.gravar_avaliar_normal(satisfacao_do_usuario_normal + 1)
+
+        arquivo = open(AVALIARSATISFACAONORMAL, "w", encoding="utf-8")
+
+        satisfacao_do_usuario_normal = str(satisfacao_do_usuario_normal + 1)
+        arquivo.write(satisfacao_do_usuario_normal)
+        arquivo.close()
+
+#####################################################################################
+
     def salvar_metrica_numero_de_interacoes(self):
         #TODO: Alterar docstring """Salva métricas com o numero de interacoes que já usou o bot. Essa funcao é chamada quando o usuario manda um /start"""
         try:
@@ -61,12 +130,6 @@ class ClienteTelegram(Cliente):
             numero_de_interacoes = int(numero_de_interacoes)
 
         self.connection.gravar_n_interacoes(numero_de_interacoes + 1)
-
-        # context.bot.send_message(
-        #     # -1001795732349
-        #     chat_id=-1001565692647,
-        #     text=f"{numero_de_interacoes + 1}",
-        # )
 
         arquivo = open(NUMEROINTERACOESBOTFILENAME, "w", encoding="utf-8")
 
@@ -150,6 +213,9 @@ class ClienteTelegram(Cliente):
     def getReplyMarkup(self, option):
         self.salvar_metrica_numero_de_interacoes()
         replyMarkup = {
+            texto.BOM:botoesTelegram.resposta_avaliacao(),
+            texto.RUIM:botoesTelegram.resposta_avaliacao(),
+            texto.NORMAL:botoesTelegram.resposta_avaliacao(),
             texto.AVALIAR: botoesTelegram.buttons_avaliar(),
             texto.HOME: botoesTelegram.start_lines(),
             texto.ESTRUTURA_ADMINISTRATIVA: botoesTelegram.setor_line(),
@@ -180,6 +246,7 @@ class ClienteTelegram(Cliente):
 
     def getResponseText(self, option, update):
         text = {
+            texto.BOM: texto.txt_avaliar_agradecimento, texto.RUIM: texto.txt_avaliar_agradecimento, texto.NORMAL: texto.txt_avaliar_agradecimento,
             texto.AVALIAR: texto.txt_avaliar,
             texto.SUGERIR: texto.txt_sugestao,
             texto.HOME: f"Olá! " + self.userName + "\n" + texto.start_texto,
@@ -208,8 +275,7 @@ class ClienteTelegram(Cliente):
     def getResponseTextReplyMarkup(self, option, update):
         return [self.getResponseText(option, update), self.getReplyMarkup(option)]
 
-    def avaliar (self, update: Update, context: CallbackContext) -> None:
-        print("oi")
+    def menu_avaliar (self, update: Update, context: CallbackContext) -> None:
         context.bot.send_message(
         chat_id=update.effective_message.chat_id,
         text=texto.txt_avaliar,
@@ -229,6 +295,15 @@ class ClienteTelegram(Cliente):
             self.salvar_metrica_numero_de_interacoes()
         argumentos = self.getResponseTextReplyMarkup(query.data, update)
         self.sendResposta(argumentos[0], argumentos[1])
+
+        if (query.data == texto.BOM):
+            self.salvar_metrica_avaliar_bom()
+
+        if (query.data == texto.RUIM):
+            self.salvar_metrica_avaliar_ruim()
+
+        if (query.data == texto.NORMAL):
+            self.salvar_metrica_avaliar_normal()
 
     def sugerir(self, update: Update, context: CallbackContext):
         context.bot.send_message(chat_id=update.effective_message.chat_id, text=texto.txt_sugestao)
@@ -296,7 +371,7 @@ class ClienteTelegram(Cliente):
         )
         dispatcher.add_handler(conv_handler)
         dispatcher.add_handler(CommandHandler("start", self.start))
-        dispatcher.add_handler(CommandHandler("avaliar", self.avaliar))
+        dispatcher.add_handler(CommandHandler("avaliar", self.menu_avaliar))
 
         # dispatcher.add_handler(CallbackQueryHandler(self.balloon))
         #        dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, self.salvar_sugestao))

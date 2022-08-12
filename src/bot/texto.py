@@ -9,6 +9,9 @@ FAQ_SEAC = "FAQ_SEAC"
 FAQ_COEX = "FAQ_COEX"
 SUGERIR = "SUGERIR"
 AVALIAR = "AVALIAR"
+BOM = "GOOD"
+RUIM = "BAD"
+NORMAL = "NORMAL"
 start_texto = "Para prosseguir, selecione uma opção disponível que poderá lhe ajudar no seu atendimento 👇"
 
 
@@ -59,7 +62,7 @@ FAQ = """
 veja e selecione aquela que melhor atende sua expectativa. Espero que isso lhe ajude em sua busca.
 Caso não encontre o que procura, minhas recomendações são:
 ⚠ 1 - Entre em contato com o setor 🏢
-⚠ 2 - Entre em contato com o gerente deste sistema para sugerir alguma implementação 💬
+⚠ 2 - Entre em contato com o gerente deste sistema para /sugerir alguma implementação 💬 @marcelo_d_melo @michael_moreira
 ⚠ 3 - Busque atendimento presencial com o setor nos horários de funcionamento ⏱ 
 """
 
@@ -198,12 +201,21 @@ Art. 225. Cada disciplina poderá ser cancelada apenas uma vez. Para requerer o 
 ⚠ 5) Caso tenha menos de 18 anos, anexe a imagem do RG do responsável legal. \nPronto! O requerimento foi criado. Assim que os servidores da secretaria Acadêmica abrirem o requerimento, a solicitação será avaliada e posteriormente será realizado o cancelamento da disciplina.
 """
 
-txt_avaliar = """Olá, desejamos a sua avaliação. considere este chatbot um ponto inicial para futuras implementações ao uso aos outros setores. Sabendo disto, o chatbot pode ser útil para você na prestação de atendimentos e interação acadêmica.
+txt_avaliar = """Olá, eu gostaria de sua avaliação. considere - me um chatbot inicial para futuras implementações  aos  outros setores.\n 
+No momento consigo fazer algo ali, outro  aqui; me endentes?\n 
+Sabendo disto, o chatbot pode ser útil para você na prestação de atendimentos e interação acadêmica.
 
 Qual a sua Avaliação:"""
 
 txt_sugestao = """Faça a sua sugestão ao nosso bot"""
-txt_sugestao_agradecimento = "Obrigado pela sua sugestão"
+
 txt_confirmar_sugestao="""Você deseja confirmar a sua sugestão 👇"""
-txt_sugestao_cancelada = """Ok, sua sugestão foi cancelada. Fica para uma próxima ne?. 
+
+txt_sugestao_agradecimento = "Obrigado pela sua sugestão"
+
+txt_sugestao_cancelada = """Ok, sua sugestão foi cancelada. Fica para uma próxima ne? 
 Sua sugestão será sempre bem-vinda para melhor lhe atender. Até logo."""
+
+txt_avaliar_agradecimento = """Agradeço por sua avaliação.\n
+Esse dado é um apoio importante, pois me preocupo em prestar um bom atendimento e sanar suas necessidades.\n
+Por isso sua colaboração é fundamental, utilize [ /sugerir ] e colabore em meu upgrade, desta forma poderei melhor lhe atender nas futuras atualizações."""

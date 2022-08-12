@@ -68,5 +68,19 @@ class bd_singleton(metaclass=bd_singleton_meta):
         self.cnt.execute(f"update register set quantidade_de_usuario = {n_usuarios}")
         self.connect.commit()
 
+    def gravar_avaliar_bom(self, bom):
+        self.cnt.execute(f"update satisfacao set _bom_ = {bom}")
+        self.connect.commit()
+
+    def gravar_avaliar_ruim(self, ruim):
+        self.cnt.execute(f"update satisfacao set _ruim_ = {ruim}")
+        self.connect.commit()
+
+    def gravar_avaliar_normal(self, normal):
+        self.cnt.execute(f"update satisfacao set normal = {normal}")
+        self.connect.commit()
+
+        print()
+
     def __init__(self):
         self.cnt=self.criar_conexao()
