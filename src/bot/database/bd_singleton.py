@@ -1,7 +1,8 @@
+import mysql.connector as MSCNT
 import sys
-
-import psycopg2 as MSCNT
+#import psycopg2 as MSCNT
 class bd_singleton_meta(type):
+
     """
     The Singleton class can be implemented in different ways in Python. Some
     possible methods include: base class, decorator, metaclass. We will use the
@@ -24,18 +25,27 @@ class bd_singleton_meta(type):
 class bd_singleton(metaclass=bd_singleton_meta):
 
     def criar_conexao(self):
+        # banco de dados local
         self.connect = MSCNT.connect(
-            user="ardoqwcvwguqhl",
-            password="d2d13e7cedc177e63bde1aea4373b11f12863282c0cef82eaf906251802d83f0",
-            host="ec2-50-19-255-190.compute-1.amazonaws.com",
-            database="d6ggk08ff8eilr",sslmode='require'
-        )
-        # self.connect = MSCNT.connect(
+            user="root",
+            password="aluno",
+            host="127.0.0.1",
+            database="dblocal")
+
+        # banco de dados no HEROKU;
+        #self.connect = MSCNT.connect(
+        #    user="ardoqwcvwguqhl",
+        #    password="d2d13e7cedc177e63bde1aea4373b11f12863282c0cef82eaf906251802d83f0",
+        #    host="ec2-50-19-255-190.compute-1.amazonaws.com",
+        #    database="d6ggk08ff8eilr",sslmode='require'
+        #)
+        #self.connect = MSCNT.connect(
         #     user="qwzogpufdqemlg",
         #     password="bb46a9a5c70414469630f407b20c7d332c4b8da85b3e2983248fcaa292d065d5",
         #     host="ec2-44-206-197-71.compute-1.amazonaws.com",
         #     database="d2q6qddvn64d66",sslmode='require'
         # )
+
         return self.connect.cursor()
 
     def visualizar_sugestoes(self):
