@@ -348,7 +348,12 @@ class ClienteTelegram(Cliente):
         pass
 
     def timeout(update: Update, context: CallbackContext):
-        update.message.reply_text('out time has ended. good bye')
+        context.bot.send_message(chat_id=update.effective_message.chat_id, text='out time has ended. good bye')
+
+    def exc (self, update: Update, context: CallbackContext) -> None:
+        context.bot.send_message(
+        chat_id=update.effective_message.chat_id,
+        text=f'{update.effective_user.full_name} sugiro que utilize / para acessar o menu e funções.')
 
     def iniciar(self) -> None:
         token = "5241177916:AAHZUC5gimNEyosHBngN5-KELqBSYauthok"
@@ -372,8 +377,7 @@ class ClienteTelegram(Cliente):
         dispatcher.add_handler(conv_handler)
         dispatcher.add_handler(CommandHandler("start", self.start))
         dispatcher.add_handler(CommandHandler("avaliar", self.menu_avaliar))
-
-        # dispatcher.add_handler(CallbackQueryHandler(self.balloon))
+        dispatcher.add_handler(MessageHandler(Filters.all, self.exc))
         #        dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, self.salvar_sugestao))
         updater.start_polling()
         updater.idle()
