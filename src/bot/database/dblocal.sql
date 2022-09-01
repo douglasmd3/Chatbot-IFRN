@@ -1,6 +1,6 @@
 drop database if exists dblocal;
-create database dblocal;
-use dblocal;
+create database 1725032_dblocal;
+use 1725032_dblocal;
 
 create table register(
 	quantidade_de_usuario int not null

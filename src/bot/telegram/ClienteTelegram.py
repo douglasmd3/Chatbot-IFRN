@@ -9,7 +9,8 @@ from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import (CallbackContext, CallbackQueryHandler,
                           CommandHandler, Filters, MessageHandler, Updater, ConversationHandler)
 
-from bot.database.bd_singleton import bd_singleton
+#from bot.database.bd_singleton import bd_singleton
+from bot.database.bd_MySQL import bd_singleton
 from . import botoesTelegram
 
 allowedUsernames = []
@@ -30,6 +31,7 @@ buttons = [
 
 class ClienteTelegram(Cliente):
     connection = bd_singleton()
+
 
     handler = None
     userName = ""
@@ -176,6 +178,7 @@ class ClienteTelegram(Cliente):
 
     def start(self, update: Update, context: CallbackContext) -> None:
         historico.clear()
+        self.logger.info("start")
         # qunatidade de usuários diferentes iniciaram o bot:
         # if update.effective_chat.username not in alloweUsernames:
         #     alloweUsernames.append(update.effective_chat.username)
@@ -384,6 +387,9 @@ class ClienteTelegram(Cliente):
 
 
 if __name__ == "__main__":
+    print("inicio")
     clienteTelegram = ClienteTelegram()
     clienteTelegram.print_to_stdout("OIIII")
     clienteTelegram.iniciar()
+    
+    
