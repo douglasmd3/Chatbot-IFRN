@@ -29,7 +29,7 @@ class bd_singleton(metaclass=bd_singleton_meta):
         # banco de dados local
         connect = MSCNT.connect(
             user="chatbot",
-            password="ch@tb0t@db",
+            password="ch@tb0t@db", #TODO: Colocar credenciais no .env
             host="10.225.0.4",
             database="chatbot",
         )
@@ -87,7 +87,7 @@ class bd_singleton(metaclass=bd_singleton_meta):
     def gravar_avaliar_bom(self, bom):
         try:
             print(f"AVALIACAO BOA {bom}")
-            self.cnt.cursor().execute(f"update satisfacao set _bom_ = {bom}")
+            self.cnt.cursor().execute("update satisfacao set _bom_ = %(bom)s",{'bom':bom}) #TODO: Fazer todas as queries usando este tipo de composicao de string
             print(self.cnt.commit())
         except (MSCNT.Error, MSCNT.Warning) as e:
             print (e)
