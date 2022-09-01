@@ -8,22 +8,18 @@
   </head>
   <body>
     <h1>Oi! Eu sou o chatbot!!!</h1>
-    <script
-      src="https://unpkg.com/blip-chat-widget"
-      type="text/javascript"
-    ></script>
-    <script>
-      (function () {
-        window.onload = function () {
-          new BlipChat()
-            .withAppKey(
-              "bWluaXByb2pldG9kYXdudGVjaGJvdDoxMWJhMThhMi03YmE2LTQyODItYmVmOC01MjVlM2Y4NTM3M2I="
-            )
-            .withButton({ color: "#2CC3D5", icon: "" })
-            .withCustomCommonUrl("https://michael-douglas-jj7da.chat.blip.ai/")
-            .build();
-        };
-      })();
+    <script src="https://unpkg.com/blip-chat-widget" type="text/javascript"> 
+    </script> 
+    <script> 
+        (function () { 
+            window.onload = function () { 
+                new BlipChat() 
+                .withAppKey('bWluaXByb2pldG9kYXdudGVjaGJvdDoxMWJhMThhMi03YmE2LTQyODItYmVmOC01MjVlM2Y4NTM3M2I=') 
+                .withButton({"color":"#2CC3D5","icon":""}) 
+                .withCustomCommonUrl('https://michael-douglas-jj7da.chat.blip.ai/') 
+                .build(); 
+            } 
+        })(); 
     </script>
   </body>
 </html>
