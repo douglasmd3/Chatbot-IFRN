@@ -1,7 +1,7 @@
 # chmod +x startup.sh Para tornar o arquivo executável
 #pip3.9 install python-telegram-bot
 #pip3.9 install gtts playsound
-python3 src/telegram/clienteTelegram.py
+python3  src/main.py
 
 ## Heroku steps
 # heroku login
