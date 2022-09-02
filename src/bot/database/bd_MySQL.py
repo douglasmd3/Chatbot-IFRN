@@ -1,7 +1,9 @@
+from asyncio.log import logger
 import sys
 
 import mysql.connector as MSCNT
-import logging
+from app_logging import logger 
+
 
 # import psycopg2 as MSCNT
 class bd_singleton_meta(type):
@@ -47,7 +49,7 @@ class bd_singleton(metaclass=bd_singleton_meta):
             self.cnt.commit()
             return lista_sugestao
         except Exception as e:
-            logging.exception(e)
+            logger.exception(e)
 
 
     def gravar_sugestao(self, usuario, sugestao):
@@ -99,3 +101,4 @@ class bd_singleton(metaclass=bd_singleton_meta):
 
     def __init__(self):
         self.cnt = self.criar_conexao()
+        
