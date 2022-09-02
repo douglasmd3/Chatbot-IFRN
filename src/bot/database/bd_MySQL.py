@@ -1,6 +1,7 @@
 import sys
 
 import mysql.connector as MSCNT
+import logging
 
 # import psycopg2 as MSCNT
 class bd_singleton_meta(type):
@@ -33,32 +34,21 @@ class bd_singleton(metaclass=bd_singleton_meta):
             host="10.225.0.4",
             database="chatbot",
         )
-        # database="dblocal")
-
-        # banco de dados no HEROKU;
-        # self.connect = MSCNT.connect(
-        #    user="ardoqwcvwguqhl",
-        #    password="d2d13e7cedc177e63bde1aea4373b11f12863282c0cef82eaf906251802d83f0",
-        #    host="ec2-50-19-255-190.compute-1.amazonaws.com",
-        #    database="d6ggk08ff8eilr",sslmode='require'
-        # )
-        # self.connect = MSCNT.connect(
-        #     user="qwzogpufdqemlg",
-        #     password="bb46a9a5c70414469630f407b20c7d332c4b8da85b3e2983248fcaa292d065d5",
-        #     host="ec2-44-206-197-71.compute-1.amazonaws.com",
-        #     database="d2q6qddvn64d66",sslmode='require'
-        # )
         return connect
 
     def visualizar_sugestoes(self):
-        lista_sugestao = []
-        self.cnt.execute("select * from sugestao")
+        try:
+            lista_sugestao = []
+            self.cnt.execute("select * from sugestao")
 
-        show = self.cnt.cursor().fetchall()
-        for linha in show:
-            lista_sugestao.append(f"NOME: {linha[0]},MENSAGEM: {linha[1]}")
-        self.cnt.commit()
-        return lista_sugestao
+            show = self.cnt.cursor().fetchall()
+            for linha in show:
+                lista_sugestao.append(f"NOME: {linha[0]},MENSAGEM: {linha[1]}")
+            self.cnt.commit()
+            return lista_sugestao
+        except Exception as e:
+            logging.exception(e)
+
 
     def gravar_sugestao(self, usuario, sugestao):
         try:
@@ -68,7 +58,7 @@ class bd_singleton(metaclass=bd_singleton_meta):
             sys.stdout.flush()
             return True
         except:
-            print("comentário não salvo.")
+            logging.exception("comentário não salvo.")
             return None
 
     def gravar_n_interacoes(self, n_interacoes):
@@ -81,8 +71,8 @@ class bd_singleton(metaclass=bd_singleton_meta):
             self.cnt.cursor().execute(f"update register set quantidade_de_usuario = {n_usuarios}")
             self.cnt.commit()
         except (MSCNT.Error, MSCNT.Warning)  as e:
-            print (e)
-            self.cnt()
+            logging.exception(e)
+            
 
     def gravar_avaliar_bom(self, bom):
         try:
@@ -90,24 +80,21 @@ class bd_singleton(metaclass=bd_singleton_meta):
             self.cnt.cursor().execute("update satisfacao set _bom_ = %(bom)s",{'bom':bom}) #TODO: Fazer todas as queries usando este tipo de composicao de string
             print(self.cnt.commit())
         except (MSCNT.Error, MSCNT.Warning) as e:
-            print (e)
-            self.cnt()
+            logging.exception(e)
 
     def gravar_avaliar_ruim(self, ruim):
         try:
             self.cnt.cursor().execute(f"update satisfacao set _ruim_ = {ruim}")
             self.cnt.commit()
         except (MSCNT.Error, MSCNT.Warning) as e:
-            print (e)
-            self.cnt()
+            logging.exception(e)
 
     def gravar_avaliar_normal(self, normal):
         try:
             self.cnt.cursor().execute(f"update satisfacao set normal = {normal}")
             self.cnt.commit()
         except (MSCNT.Error, MSCNT.Warning) as e:
-            print (e)
-            self.cnt()
+            logging.exception(e)
 
 
     def __init__(self):
