@@ -56,13 +56,13 @@ class bd_singleton(metaclass=bd_singleton_meta):
 
         show = self.cnt.cursor().fetchall()
         for linha in show:
-            lista_sugestao.append(f"NOME: {linha[0]},MENSAGEM: {linha[1]}")
+            lista_sugestao.append("NOME: %f,MENSAGEM: %f" % (linha[0],linha[1]))
         self.cnt.commit()
         return lista_sugestao
 
     def gravar_sugestao(self, usuario, sugestao):
         try:
-            self.cnt.cursor().execute(f"insert into sugestao (nome, mensagem) values ('{usuario}','{sugestao}')")
+            self.cnt.cursor().execute("insert into sugestao (nome, mensagem) values %(usuario)s, %(sugestao)s",{'usuario':usuario},{'sugestao':sugestao})
             self.cnt.commit()
             print(self.visualizar_sugestoes()[-1])
             sys.stdout.flush()
@@ -73,12 +73,12 @@ class bd_singleton(metaclass=bd_singleton_meta):
 
     def gravar_n_interacoes(self, n_interacoes):
         # no banco o Quser tem que iniciar com 0 e não estar vazio.
-        self.cnt.cursor().execute(f"update interacao set quantidade_de_interacao = {n_interacoes}")
+        self.cnt.cursor().execute("update interacao set quantidade_de_interacao = %(n_interacoes)s",{'n_interacoes':n_interacoes})
         self.cnt.commit()
 
     def gravar_n_usuarios(self, n_usuarios):
         try:
-            self.cnt.cursor().execute(f"update register set quantidade_de_usuario = {n_usuarios}")
+            self.cnt.cursor().execute("update register set quantidade_de_usuario = %(n_usuarios)s",{'n_usuarios':n_usuarios})
             self.cnt.commit()
         except (MSCNT.Error, MSCNT.Warning)  as e:
             print (e)
@@ -95,7 +95,7 @@ class bd_singleton(metaclass=bd_singleton_meta):
 
     def gravar_avaliar_ruim(self, ruim):
         try:
-            self.cnt.cursor().execute(f"update satisfacao set _ruim_ = {ruim}")
+            self.cnt.cursor().execute("update satisfacao set _ruim_ = %(ruim)s",{'ruim':ruim})
             self.cnt.commit()
         except (MSCNT.Error, MSCNT.Warning) as e:
             print (e)
@@ -103,7 +103,7 @@ class bd_singleton(metaclass=bd_singleton_meta):
 
     def gravar_avaliar_normal(self, normal):
         try:
-            self.cnt.cursor().execute(f"update satisfacao set normal = {normal}")
+            self.cnt.cursor().execute("update satisfacao set normal = %(normal)s",{'normal':normal})
             self.cnt.commit()
         except (MSCNT.Error, MSCNT.Warning) as e:
             print (e)
