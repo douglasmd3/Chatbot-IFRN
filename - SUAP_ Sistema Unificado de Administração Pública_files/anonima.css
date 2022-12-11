@@ -149,15 +149,52 @@ body.anonima main > .errornote {
 body.anonima #login form {
     margin-top: 20px;
 }
-body.anonima #login h2 {
-    background-image: url(/static/comum/img/logo-login.png);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 100px;
-    max-width: 100%;
-    text-indent: -9000px;
+
+body.anonima #bot button
+{
+    text-align: center;
+    outline: 0 none;
+    border: 0 none;
+    margin-top: 1%;
+    box-sizing: border-box;
+    border-radius: 40px;
+    cursor: pointer;
+    display: inline-block;
+    min-height: 35px;
+    white-space: nowrap;
+    background-color: #25a25a;
+    font-size: 150%;
     width: 100%;
+    margin-right: 0;
+    padding: auto;
+    color: white;
+}
+
+body.anonima #dog button
+{
+    position: fixed;
+    /* deixando o elemento na posição desejada */
+    right: 30px;
+    top: 60px;
+    text-align: center;
+    margin: 0;
+    box-sizing: border-box;
+    outline: 0 none;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px 25px;
+    white-space: nowrap;
+    background-color: #25a25a;
+    color: white;
+    font-size: 100%;
+}
+
+
+body.anonima #login h2 {
+    text-align: center;
+    
 }
 body.anonima #login h3 .fas {
     margin-right: 5px;
@@ -218,7 +255,6 @@ body.anonima #login .form-row label {
 }
 body.anonima #login .submit-row input[type="submit"] {
     font-size: 120%;
-    height: 45px;
     margin-right: 0;
     width: 100%;
 }
