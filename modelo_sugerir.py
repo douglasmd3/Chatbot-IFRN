@@ -54,7 +54,7 @@ def timeout(update: Update, context: CallbackContext):
 
 def iniciar() -> None:
 
-    token = "5349836396:AAE3bc0toOlkI0IIeLrn2ON4LMOWjjKcWQk"
+    token = "API"
     updater = Updater(token, use_context =True)
     dispatcher = updater.dispatcher
 
