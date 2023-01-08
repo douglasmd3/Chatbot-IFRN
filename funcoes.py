@@ -177,7 +177,7 @@ def register (update: Update, context: CallbackContext) -> None:
 
 def iniciar() -> None:
 
-    token = "5241177916:AAHZUC5gimNEyosHBngN5-KELqBSYauthok"
+    token = "API"
     updater = Updater(token)
     dispatcher = updater.dispatcher
 
